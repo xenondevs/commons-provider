@@ -3,11 +3,13 @@ package xyz.xenondevs.commons.provider.impl
 import xyz.xenondevs.commons.provider.DeferredValue
 import xyz.xenondevs.commons.provider.MutableProvider
 import xyz.xenondevs.commons.provider.Provider
+import xyz.xenondevs.commons.provider.UnstableProviderApi
 
 /**
  * A stable provider is based on an immutable [value], meaning the provider's value itself
  * is immutable and possibly lazily initialized.
  */
+@OptIn(UnstableProviderApi::class)
 internal class StableProvider<T>(override val value: DeferredValue<T>) : Provider<T> {
     
     override val parents: Set<Provider<*>>

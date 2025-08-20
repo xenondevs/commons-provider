@@ -29,6 +29,7 @@ import kotlin.reflect.KProperty
  * 
  * @see provider
  */
+@SubclassOptInRequired(UnstableProviderApi::class)
 interface Provider<out T> : Supplier<@UnsafeVariance T> {
     
     /**

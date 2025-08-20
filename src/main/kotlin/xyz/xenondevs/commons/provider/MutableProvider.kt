@@ -30,6 +30,7 @@ import kotlin.reflect.KProperty
  * 
  * @see mutableProvider
  */
+@SubclassOptInRequired(UnstableProviderApi::class)
 interface MutableProvider<T> : Provider<T> {
     
     /**
