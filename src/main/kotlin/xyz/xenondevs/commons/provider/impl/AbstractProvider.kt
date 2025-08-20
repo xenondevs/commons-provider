@@ -8,7 +8,7 @@ import xyz.xenondevs.commons.provider.util.without
 import java.util.*
 
 @Suppress("UNCHECKED_CAST")
-class UpdateHandlerCollection<T> private constructor(
+internal class UpdateHandlerCollection<T> private constructor(
     val strongSubscribers: Collection<(T) -> Unit>,
     val weakSubscribers: Map<Any, Set<(Any, T) -> Unit>>,
     val strongObservers: Collection<() -> Unit>,

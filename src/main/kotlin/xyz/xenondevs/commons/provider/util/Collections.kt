@@ -5,7 +5,7 @@ import java.util.*
 /**
  * Creates a new empty weak hash set with the specified [initialCapacity].
  */
-fun <K> weakHashSet(initialCapacity: Int): MutableSet<K> =
+internal fun <K> weakHashSet(initialCapacity: Int): MutableSet<K> =
     Collections.newSetFromMap(WeakHashMap(initialCapacity))
 
 /**
