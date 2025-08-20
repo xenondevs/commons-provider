@@ -208,4 +208,5 @@ $dokka.location:xyz.xenondevs.commons.provider/Provider/unsubscribe/#kotlin.Func
 $dokka.location:xyz.xenondevs.commons.provider/Provider/unsubscribeWeak/#TypeParam(bounds=[kotlin.Any])#kotlin.Function2[TypeParam(bounds=[kotlin.Any]),TypeParam(bounds=[kotlin.Any?]),kotlin.Unit]/PointingToDeclaration/commons-provider/xyz.xenondevs.commons.provider/-provider/unsubscribe-weak.html
 $dokka.location:xyz.xenondevs.commons.provider/Provider/unsubscribeWeak/#TypeParam(bounds=[kotlin.Any])/PointingToDeclaration/commons-provider/xyz.xenondevs.commons.provider/-provider/unsubscribe-weak.html
 $dokka.location:xyz.xenondevs.commons.provider/Provider/value/#/PointingToDeclaration/commons-provider/xyz.xenondevs.commons.provider/-provider/value.html
+$dokka.location:xyz.xenondevs.commons.provider/UnstableProviderApi///PointingToDeclaration/commons-provider/xyz.xenondevs.commons.provider/-unstable-provider-api/index.html
 xyz.xenondevs.commons.provider
