@@ -1,7 +1,1 @@
-include(":commons-collections")
-include(":commons-gson")
-include(":commons-guava")
-include(":commons-provider")
-include(":commons-reflection")
-include(":commons-tuple")
-include(":commons-version")
+rootProject.name = "commons-provider"
