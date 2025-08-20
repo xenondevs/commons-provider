@@ -1,5 +1,19 @@
-# commons
+# commons-provider
 
-A collection of Kotlin utilities.
+[KDoc](https://commons-provider.dokka.xenondevs.xyz)
 
-[KDoc](https://commons.dokka.xenondevs.xyz)
+## Maven
+```xml
+<repository>
+    <id>xenondevs</id>
+    <url>https://repo.xenondevs.xyz/releases/</url>
+</repository>
+```
+
+```xml
+<dependency>
+    <groupId>xyz.xenondevs.commons</groupId>
+    <artifactId>commons-provider</artifactId>
+    <version>VERSION</version>
+</dependency>
+```
