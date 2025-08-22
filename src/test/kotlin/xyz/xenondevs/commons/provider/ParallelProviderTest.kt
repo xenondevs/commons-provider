@@ -153,50 +153,66 @@ class ParallelProviderTest {
     
     @Test
     fun `test for lost update on provider creation via immediateFlatMap`() {
-        val selection = listOf(provider(1), provider(2))
-        testForProviderCreationLostUpdate(0, 1, 2) { provider -> provider.immediateFlatMap { selection[it] } }
+        testForProviderCreationLostUpdate(0, 1, 2) { provider ->
+            val selection = listOf(provider(1), provider(2))
+            provider.immediateFlatMap { selection[it] } 
+        }
     }
     
     @Test
     fun `test for lost update on provider creation via strongImmediateFlatMap`() {
-        val selection = listOf(provider(1), provider(2))
-        testForProviderCreationLostUpdate(0, 1, 2) { provider -> provider.strongImmediateFlatMap { selection[it] } }
+        testForProviderCreationLostUpdate(0, 1, 2) { provider ->
+            val selection = listOf(provider(1), provider(2))
+            provider.strongImmediateFlatMap { selection[it] }
+        }
     }
     
     @Test
     fun `test for lost update on provider creation via immediateFlatMapMutable`() {
-        val selection = listOf(mutableProvider(1), mutableProvider(2))
-        testForProviderCreationLostUpdate(0, 1, 2) { provider -> provider.immediateFlatMapMutable { selection[it] } }
+        testForProviderCreationLostUpdate(0, 1, 2) { provider ->
+            val selection = listOf(mutableProvider(1), mutableProvider(2))
+            provider.immediateFlatMapMutable { selection[it] }
+        }
     }
     
     @Test
     fun `test for lost update on provider creation via strongImmediateFlatMapMutable`() {
-        val selection = listOf(mutableProvider(1), mutableProvider(2))
-        testForProviderCreationLostUpdate(0, 1, 2) { provider -> provider.strongImmediateFlatMapMutable { selection[it] } }
+        testForProviderCreationLostUpdate(0, 1, 2) { provider ->
+            val selection = listOf(mutableProvider(1), mutableProvider(2))
+            provider.strongImmediateFlatMapMutable { selection[it] } 
+        }
     }
     
     @Test
     fun `test for lost update on provider creation via flatMap`() {
-        val selection = listOf(provider(1), provider(2))
-        testForProviderCreationLostUpdate(0, 1, 2) { provider -> provider.flatMap { selection[it] } }
+        testForProviderCreationLostUpdate(0, 1, 2) { provider ->
+            val selection = listOf(provider(1), provider(2))
+            provider.flatMap { selection[it] } 
+        }
     }
     
     @Test
     fun `test for lost update on provider creation via strongFlatMap`() {
-        val selection = listOf(provider(1), provider(2))
-        testForProviderCreationLostUpdate(0, 1, 2) { provider -> provider.strongFlatMap { selection[it] } }
+        testForProviderCreationLostUpdate(0, 1, 2) { provider ->
+            val selection = listOf(provider(1), provider(2))
+            provider.strongFlatMap { selection[it] }
+        }
     }
     
     @Test
     fun `test for lost update on provider creation via flatMapMutable`() {
-        val selection = listOf(mutableProvider(1), mutableProvider(2))
-        testForProviderCreationLostUpdate(0, 1, 2) { provider -> provider.flatMapMutable { selection[it] } }
+        testForProviderCreationLostUpdate(0, 1, 2) { provider ->
+            val selection = listOf(mutableProvider(1), mutableProvider(2))
+            provider.flatMapMutable { selection[it] }
+        }
     }
     
     @Test
     fun `test for lost update on provider creation via strongFlatMapMutable`() {
-        val selection = listOf(mutableProvider(1), mutableProvider(2))
-        testForProviderCreationLostUpdate(0, 1, 2) { provider -> provider.strongFlatMapMutable { selection[it] } }
+        testForProviderCreationLostUpdate(0, 1, 2) { provider ->
+            val selection = listOf(mutableProvider(1), mutableProvider(2))
+            provider.strongFlatMapMutable { selection[it] }
+        }
     }
     
     @Test

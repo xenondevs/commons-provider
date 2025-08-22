@@ -106,23 +106,29 @@ internal class MultiUnidirectionalTransformingProvider<P, T> private constructor
         get() = _parents.toSet()
     
     @Volatile
-    override var value: DeferredValue<T> = DeferredValue.MappedMulti(_parents.map { it.value }, transform)
+    override var value: DeferredValue<T> = DeferredValue.MappedMulti(_parents.map(Provider<P>::value), transform)
     
     override fun handleParentUpdated(updatedParent: Provider<*>) {
-        update(DeferredValue.MappedMulti(_parents.map { it.value }, transform))
+        update(DeferredValue.MappedMulti(_parents.map(Provider<P>::value), transform))
     }
     
     companion object {
         
         fun <P, T> of(parents: List<Provider<P>>, weak: Boolean, transform: (List<P>) -> T): Provider<T> {
+            if (parents.all { it is StableProvider })
+                return StableProvider(DeferredValue.MappedMulti(parents.map(Provider<P>::value), transform))
+            
             val provider = MultiUnidirectionalTransformingProvider(parents, transform)
-            for (parent in parents) {
-                if (weak) {
+            if (weak) {
+                for (parent in parents) {
                     parent.addWeakChild(provider)
-                } else {
+                }
+            } else {
+                for (parent in parents) {
                     parent.addStrongChild(provider)
                 }
             }
+            
             provider.handleParentUpdated(parents[0]) // propagate potentially lost update during provider creation and child assignment
             return provider
         }
