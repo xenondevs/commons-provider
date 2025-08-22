@@ -95,6 +95,49 @@ inline fun <T, R : Any, C : MutableCollection<in R>> Provider<Collection<T>>.map
     crossinline transform: (T) -> R?
 ): Provider<C> = map { it.mapNotNullTo(makeCollection(it.size), transform) }
 
+/**
+ * Creates and returns a new [Provider] that maps each element and its index of the [Collection]
+ * obtained from [this][Provider] using the [transform] function.
+ *
+ * [transform] should be a pure function.
+ */
+inline fun <T, R> Provider<Collection<T>>.strongMapEachIndexed(crossinline transform: (Int, T) -> R): Provider<List<R>> =
+    strongMapEachIndexedTo({ size -> ArrayList(size) }, transform)
+
+/**
+ * Creates and returns a new [Provider] that maps each element and its index of the [Collection]
+ * obtained from [this][Provider] using the [transform] function.
+ *
+ * [transform] should be a pure function.
+ *
+ * The returned provider will only be stored in a [WeakReference] in the parent provider ([this][MutableProvider]).
+ */
+inline fun <T, R> Provider<Collection<T>>.mapEachIndexed(crossinline transform: (Int, T) -> R): Provider<List<R>> =
+    mapEachIndexedTo({ size -> ArrayList(size) }, transform)
+
+/**
+ * Creates and returns a new [Provider] that maps each element and its index of the [Collection]
+ * obtained from [this][Provider] using the [transform] function and adds the results to a collection created by [makeCollection].
+ *
+ * [makeCollection] and [transform] should be pure functions.
+ */
+inline fun <T, R, C : MutableCollection<in R>> Provider<Collection<T>>.strongMapEachIndexedTo(
+    crossinline makeCollection: (size: Int) -> C,
+    crossinline transform: (Int, T) -> R
+): Provider<C> = strongMap { it.mapIndexedTo(makeCollection(it.size), transform) }
+
+/**
+ * Creates and returns a new [Provider] that maps each element and its index of the [Collection]
+ * obtained from [this][Provider] using the [transform] function and adds the results to a collection created by [makeCollection].
+ *
+ * [makeCollection] and [transform] should be pure functions.
+ *
+ * The returned provider will only be stored in a [WeakReference] in the parent provider ([this][MutableProvider]).
+ */
+inline fun <T, R, C : MutableCollection<in R>> Provider<Collection<T>>.mapEachIndexedTo(
+    crossinline makeCollection: (size: Int) -> C,
+    crossinline transform: (Int, T) -> R
+): Provider<C> = map { it.mapIndexedTo(makeCollection(it.size), transform) }
 
 /**
  * Creates and returns a new [Provider] that flat-maps the elements of the [Collection] obtained from [this][Provider]
