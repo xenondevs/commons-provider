@@ -11,6 +11,7 @@ import xyz.xenondevs.commons.provider.util.weakHashSet
 import xyz.xenondevs.commons.provider.util.with
 import xyz.xenondevs.commons.provider.util.without
 import java.util.*
+import java.util.concurrent.ConcurrentHashMap
 
 @Suppress("UNCHECKED_CAST")
 internal class UpdateHandlerCollection<T> private constructor(
@@ -101,6 +102,8 @@ internal abstract class AbstractProvider<T> : Provider<T> {
     @Volatile
     protected var updateHandlers = UpdateHandlerCollection.empty<T>()
         private set
+    
+    val addtionalReferences: MutableSet<Any> = ConcurrentHashMap.newKeySet()
     
     override val children: Set<Provider<*>>
         get() = updateHandlers.children
@@ -275,6 +278,11 @@ internal interface MutableProviderDefaults<T> : MutableProvider<T> {
         addWeakChild(provider)
         provider.handleParentUpdated(this) // propagate potentially lost update during provider creation and child assignment
         return provider
+    }
+    
+    override fun consume(source: Provider<T>) {
+        source.observeWeak(this) { thisRef -> thisRef.update(source.value, setOf(source)) }
+        (this as AbstractProvider<*>).addtionalReferences += source
     }
     
 }

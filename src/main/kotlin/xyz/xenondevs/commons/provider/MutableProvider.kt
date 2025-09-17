@@ -78,6 +78,12 @@ interface MutableProvider<T> : Provider<T> {
     fun <R> strongMapObserved(createObservable: (value: T, updateHandler: () -> Unit) -> R): Provider<R>
     
     /**
+     * Listens to updates from [source], updating [this][MutableProvider]'s value to the same value as [source] whenever [source]'s value changes.
+     * This provider will keep a strong reference to [source].
+     */
+    fun consume(source: Provider<T>)
+    
+    /**
      * Sets the value of [this][MutableProvider] to [value].
      */
     fun set(value: T) {

@@ -112,4 +112,41 @@ class MutableProviderTest {
         assertEquals(3, updateCount)
     }
     
+    @Test
+    fun testConsume() {
+        val source1 = mutableProvider(0)
+        val source2 = mutableProvider(0)
+        val sink = mutableProvider(999)
+        val mapped = sink.map { -it }
+        
+        sink.consume(source1)
+        sink.consume(source2)
+        
+        assertEquals(0, source1.get())
+        assertEquals(0, source2.get())
+        assertEquals(999, sink.get())
+        assertEquals(-999, mapped.get())
+        
+        source1.set(1)
+        
+        assertEquals(1, source1.get())
+        assertEquals(0, source2.get())
+        assertEquals(1, sink.get())
+        assertEquals(-1, mapped.get())
+        
+        source2.set(2)
+        
+        assertEquals(1, source1.get())
+        assertEquals(2, source2.get())
+        assertEquals(2, sink.get())
+        assertEquals(-2, mapped.get())
+        
+        sink.set(3)
+        
+        assertEquals(1, source1.get())
+        assertEquals(2, source2.get())
+        assertEquals(3, sink.get())
+        assertEquals(-3, mapped.get())
+    }
+    
 }
