@@ -50,6 +50,14 @@ interface Provider<out T> : Supplier<@UnsafeVariance T> {
     val value: DeferredValue<T>
     
     /**
+     * An object that semi-uniquely identifies this [Provider], intended to be used in equals and hashCode,
+     * in order to allow custom providers through delegation.
+     * Two providers should be considered equal iff their identifiers are identical (`===`).
+     */
+    val identifier: Any
+        get() = this
+    
+    /**
      * Creates and returns a new [Provider] that maps the value of [this][Provider]
      * using the [transform] function.
      *

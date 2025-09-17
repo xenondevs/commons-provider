@@ -64,4 +64,7 @@ internal class StableProvider<T>(override val value: DeferredValue<T>) : Provide
     override fun removeWeakChild(child: Provider<*>) = Unit
     override fun handleParentUpdated(updatedParent: Provider<*>) = Unit
     
+    override fun equals(other: Any?): Boolean = other is Provider<*> && other.identifier === identifier
+    override fun hashCode(): Int = System.identityHashCode(identifier)
+    
 }

@@ -243,6 +243,8 @@ internal abstract class AbstractProvider<T> : Provider<T> {
     }
     //</editor-fold>
     
+    override fun equals(other: Any?): Boolean = other is Provider<*> && other.identifier === identifier
+    override fun hashCode(): Int = System.identityHashCode(identifier)
 }
 
 internal interface MutableProviderDefaults<T> : MutableProvider<T> {
