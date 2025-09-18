@@ -2,7 +2,7 @@
 <html class="no-js">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
-    <title>removeStrongChild</title>
+    <title>consume</title>
     <link href="../../../images/logo-icon.svg" rel="icon" type="image/svg">
     <script>var pathToRoot = "../../../";</script>
     <script>document.documentElement.classList.replace("no-js","js");</script>
@@ -104,12 +104,12 @@
                 </div>
             </div>
             <div id="main">
-<div class="main-content" data-page-type="member" id="content" pageIds="commons-provider::xyz.xenondevs.commons.provider/Provider/removeStrongChild/#xyz.xenondevs.commons.provider.Provider[*]/PointingToDeclaration//-251573632">
-  <div class="breadcrumbs"><a href="../../../index.html">commons-provider</a><span class="delimiter">/</span><a href="../index.html">xyz.xenondevs.commons.provider</a><span class="delimiter">/</span><a href="index.html">Provider</a><span class="delimiter">/</span><span class="current">removeStrongChild</span></div>
+<div class="main-content" data-page-type="member" id="content" pageIds="commons-provider::xyz.xenondevs.commons.provider/MutableProvider/consume/#xyz.xenondevs.commons.provider.Provider[TypeParam(bounds=[kotlin.Any?])]/PointingToDeclaration//-251573632">
+  <div class="breadcrumbs"><a href="../../../index.html">commons-provider</a><span class="delimiter">/</span><a href="../index.html">xyz.xenondevs.commons.provider</a><span class="delimiter">/</span><a href="index.html">MutableProvider</a><span class="delimiter">/</span><span class="current">consume</span></div>
   <div class="cover ">
-    <h1 class="cover"><span>remove</span><wbr></wbr><span>Strong</span><wbr></wbr><span><span>Child</span></span></h1>
+    <h1 class="cover"><span><span>consume</span></span></h1>
   </div>
-  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":/main"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">fun </span><a href="remove-strong-child.html"><span class="token function">removeStrongChild</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">child<span class="token operator">: </span><a href="index.html">Provider</a><span class="token operator">&lt;</span><span class="token operator">*</span><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span></div><p class="paragraph">Removes a strongly referenced <a href="remove-strong-child.html">child</a> from <a href="index.html">this</a>.</p><p class="paragraph">Child management is performed automatically when creating a new provider, so this should only be used for custom <a href="index.html">Provider</a> implementations.</p></div></div>
+  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":/main"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">fun </span><a href="consume.html"><span class="token function">consume</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">source<span class="token operator">: </span><a href="../-provider/index.html">Provider</a><span class="token operator">&lt;</span><a href="index.html">T</a><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span></div><p class="paragraph">Listens to updates from <a href="consume.html">source</a>, updating <a href="index.html">this</a>'s value to the same value as <a href="consume.html">source</a> whenever <a href="consume.html">source</a>'s value changes. This provider will keep a strong reference to <a href="consume.html">source</a>.</p></div></div>
 </div>
     <div class="footer">
         <a href="#content" id="go-to-top-link" class="footer--button footer--button_go-to-top"></a>
