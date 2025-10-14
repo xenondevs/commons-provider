@@ -1,7 +1,9 @@
 package xyz.xenondevs.commons.provider.immutable
 
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import xyz.xenondevs.commons.provider.DeferredValue
+import xyz.xenondevs.commons.provider.MutableProvider
 import xyz.xenondevs.commons.provider.flatten
 import xyz.xenondevs.commons.provider.mutableProvider
 import xyz.xenondevs.commons.provider.provider
@@ -80,6 +82,20 @@ class FlatMapProviderTest {
         dynamicParents[0].set(2)
         assertEquals(2, flatMapped.get())
         assertEquals(2, flatMappedIdentity.get())
+    }
+    
+    // fixme
+    @Disabled
+    @Test
+    fun testFlatMapDynamicParentIsCreatedLazily() {
+        val staticParent = mutableProvider(0)
+        lateinit var dynamicParent: MutableProvider<String>
+        val flatMapped = staticParent.flatMapMutable { 
+            dynamicParent = mutableProvider("a")
+            dynamicParent
+        }
+        flatMapped.set("b")
+        assertEquals("b", dynamicParent.get())
     }
     
     @Test
