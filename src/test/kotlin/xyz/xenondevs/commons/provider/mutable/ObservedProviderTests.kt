@@ -180,7 +180,7 @@ class ObservedProviderTests {
     @Test
     fun testObservedIsLazy() {
         var rootEvaluated = false
-        val root = mutableProvider { 
+        val root = mutableProvider {
             rootEvaluated = true
             mutableListOf<Int>()
         }
@@ -189,6 +189,30 @@ class ObservedProviderTests {
         assertFalse(rootEvaluated)
         child.get()
         assertTrue(rootEvaluated)
+    }
+    
+    @Test
+    fun testObservedCopyList() {
+        val provider = mutableProvider(emptyList<Int>())
+        assertEquals(emptyList(), provider.get())
+        provider.observed().get().add(1)
+        assertEquals(listOf(1), provider.get())
+    }
+    
+    @Test
+    fun testObservedCopySet() {
+        val provider = mutableProvider(emptySet<Int>())
+        assertEquals(emptySet(), provider.get())
+        provider.observed().get().add(1)
+        assertEquals(setOf(1), provider.get())
+    }
+    
+    @Test
+    fun testObservedCopyMap() {
+        val provider = mutableProvider(emptyMap<Int, String>())
+        assertEquals(emptyMap(), provider.get())
+        provider.observed().get()[1] = "a"
+        assertEquals(mapOf(1 to "a"), provider.get())
     }
     
     @Test
