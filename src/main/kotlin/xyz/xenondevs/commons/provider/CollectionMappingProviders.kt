@@ -240,3 +240,183 @@ fun <K, V, M : MutableMap<in K, in V>> Provider<List<Map<K, V>>>.mergeMapsTo(mak
         maps.forEach(map::putAll)
         map
     }
+
+/**
+ * Creates and returns a new [Provider] of a [List] with all elements of the original
+ * [Iterable] and the given [element].
+ *
+ * The returned provider will only be stored in a [WeakReference] in the parent provider ([this][MutableProvider]).
+ */
+@JvmSynthetic
+@JvmName("iterablePlusElement")
+operator fun <T> Provider<Iterable<T>>.plus(element: T): Provider<List<T>> =
+    map { it + element }
+
+/**
+ * Creates and returns a new [Provider] of a [List] with all elements of the original
+ * [Iterable] and the value of [element].
+ *
+ * The returned provider will only be stored in a [WeakReference] in the parent provider ([this][MutableProvider]).
+ */
+@JvmSynthetic
+@JvmName("iterablePlusElementProvider")
+operator fun <T> Provider<Iterable<T>>.plus(element: Provider<T>): Provider<List<T>> =
+    combinedProvider(this, element) { a, b -> a + b }
+
+/**
+ * Creates and returns a new [Provider] of a [List] with all elements of the original
+ * [Iterable] and the given [elements].
+ *
+ * The returned provider will only be stored in a [WeakReference] in the parent provider ([this][MutableProvider]).
+ */
+@JvmSynthetic
+@JvmName("iterablePlusIterable")
+operator fun <T> Provider<Iterable<T>>.plus(elements: Iterable<T>): Provider<List<T>> =
+    map { it + elements }
+
+/**
+ * Creates and returns a new [Provider] of a [List] with all elements of the original
+ * [Iterable] and the values of [elements].
+ *
+ * The returned provider will only be stored in a [WeakReference] in the parent provider ([this][MutableProvider]).
+ */
+@JvmSynthetic
+@JvmName("iterablePlusIterableProvider")
+operator fun <T> Provider<Iterable<T>>.plus(elements: Provider<Iterable<T>>): Provider<List<T>> =
+    combinedProvider(this, elements) { a, b -> a + b }
+
+/**
+ * Creates and returns a new [Provider] of a [List] with all elements of the original
+ * [Iterable] without the given [element].
+ *
+ * The returned provider will only be stored in a [WeakReference] in the parent provider ([this][MutableProvider]).
+ */
+@JvmSynthetic
+@JvmName("iterableMinusElement")
+operator fun <T> Provider<Iterable<T>>.minus(element: T): Provider<List<T>> =
+    map { it - element }
+
+/**
+ * Creates and returns a new [Provider] of a [List] with all elements of the original
+ * [Iterable] without the value of [element].
+ *
+ * The returned provider will only be stored in a [WeakReference] in the parent provider ([this][MutableProvider]).
+ */
+@JvmSynthetic
+@JvmName("iterableMinusElementProvider")
+operator fun <T> Provider<Iterable<T>>.minus(element: Provider<T>): Provider<List<T>> =
+    combinedProvider(this, element) { a, b -> a - b }
+
+/**
+ * Creates and returns a new [Provider] of a [List] with all elements of the original
+ * [Iterable] without the given [elements].
+ *
+ * The returned provider will only be stored in a [WeakReference] in the parent provider ([this][MutableProvider]).
+ */
+@JvmSynthetic
+@JvmName("iterableMinusIterable")
+@Suppress("ConvertArgumentToSet")
+operator fun <T> Provider<Iterable<T>>.minus(elements: Iterable<T>): Provider<List<T>> =
+    map { it - (elements as? Set<T> ?: elements.toHashSet()) }
+
+/**
+ * Creates and returns a new [Provider] of a [List] with all elements of the original
+ * [Iterable] without the values of [elements].
+ *
+ * The returned provider will only be stored in a [WeakReference] in the parent provider ([this][MutableProvider]).
+ */
+@JvmSynthetic
+@JvmName("iterableMinusIterableProvider")
+@Suppress("ConvertArgumentToSet")
+operator fun <T> Provider<Iterable<T>>.minus(elements: Provider<Iterable<T>>): Provider<List<T>> =
+    combinedProvider(this, elements) { a, b -> a - (b as? Set<T> ?: b.toHashSet()) }
+
+/**
+ * Creates and returns a new [Provider] of a [Set] with all elements of the original
+ * [Set] and the given [element].
+ *
+ * The returned provider will only be stored in a [WeakReference] in the parent provider ([this][MutableProvider]).
+ */
+@JvmSynthetic
+@JvmName("setPlusElement")
+operator fun <T> Provider<Set<T>>.plus(element: T): Provider<Set<T>> =
+    map { it + element }
+
+/**
+ * Creates and returns a new [Provider] of a [Set] with all elements of the original
+ * [Set] and the value of [element].
+ *
+ * The returned provider will only be stored in a [WeakReference] in the parent provider ([this][MutableProvider]).
+ */
+@JvmSynthetic
+@JvmName("setPlusElementProvider")
+operator fun <T> Provider<Set<T>>.plus(element: Provider<T>): Provider<Set<T>> =
+    combinedProvider(this, element) { a, b -> a + b }
+
+/**
+ * Creates and returns a new [Provider] of a [Set] with all elements of the original
+ * [Set] and the given [elements].
+ *
+ * The returned provider will only be stored in a [WeakReference] in the parent provider ([this][MutableProvider]).
+ */
+@JvmSynthetic
+@JvmName("setPlusIterable")
+operator fun <T> Provider<Set<T>>.plus(elements: Iterable<T>): Provider<Set<T>> =
+    map { it + elements }
+
+/**
+ * Creates and returns a new [Provider] of a [Set] with all elements of the original
+ * [Set] and the values of [elements].
+ *
+ * The returned provider will only be stored in a [WeakReference] in the parent provider ([this][MutableProvider]).
+ */
+@JvmSynthetic
+@JvmName("setPlusIterableProvider")
+operator fun <T> Provider<Set<T>>.plus(elements: Provider<Iterable<T>>): Provider<Set<T>> =
+    combinedProvider(this, elements) { a, b -> a + b }
+
+/**
+ * Creates and returns a new [Provider] of a [Set] with all elements of the original
+ * [Set] without the given [element].
+ *
+ * The returned provider will only be stored in a [WeakReference] in the parent provider ([this][MutableProvider]).
+ */
+@JvmSynthetic
+@JvmName("setMinusElement")
+operator fun <T> Provider<Set<T>>.minus(element: T): Provider<Set<T>> =
+    map { it - element }
+
+/**
+ * Creates and returns a new [Provider] of a [Set] with all elements of the original
+ * [Set] without the value of [element].
+ *
+ * The returned provider will only be stored in a [WeakReference] in the parent provider ([this][MutableProvider]).
+ */
+@JvmSynthetic
+@JvmName("setMinusElementProvider")
+operator fun <T> Provider<Set<T>>.minus(element: Provider<T>): Provider<Set<T>> =
+    combinedProvider(this, element) { a, b -> a - b }
+
+/**
+ * Creates and returns a new [Provider] of a [Set] with all elements of the original
+ * [Set] without the given [elements].
+ *
+ * The returned provider will only be stored in a [WeakReference] in the parent provider ([this][MutableProvider]).
+ */
+@JvmSynthetic
+@JvmName("setMinusIterable")
+@Suppress("ConvertArgumentToSet")
+operator fun <T> Provider<Set<T>>.minus(elements: Iterable<T>): Provider<Set<T>> =
+    map { it - (elements as? Set<T> ?: elements.toHashSet()) }
+
+/**
+ * Creates and returns a new [Provider] of a [Set] with all elements of the original
+ * [Set] without the values of [elements].
+ *
+ * The returned provider will only be stored in a [WeakReference] in the parent provider ([this][MutableProvider]).
+ */
+@JvmSynthetic
+@JvmName("setMinusIterableProvider")
+@Suppress("ConvertArgumentToSet")
+operator fun <T> Provider<Set<T>>.minus(elements: Provider<Iterable<T>>): Provider<Set<T>> =
+    combinedProvider(this, elements) { a, b -> a - (b as? Set<T> ?: b.toHashSet()) }
