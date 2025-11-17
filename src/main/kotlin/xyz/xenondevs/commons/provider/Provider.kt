@@ -7,11 +7,14 @@ import kotlin.reflect.KProperty
 /**
  * A [Provider] is a thread-safe, lazily-evaluated, reactive data source that holds a single value of type [T].
  *
- * Using [map], [immediateFlatMap], and various extension functions, atomic data transformations can be modelled.
+ * Using [map], [flatMap], and various extension functions, atomic data transformations can be modelled.
  * 
  * Additionally, it is also possible to [subscribe] to and [observe] providers.
  * Note that subscribing disables the lazy evaluation of the provider, as the value will need to be calculated
  * immediately when an update happens in order to propagate it to the subscribers.
+ * Also note that by default, providers only reference their children [weakly][WeakReference], which requires you to hold a strong
+ * reference to the provider that you're subscribed to in order to keep the subscription active. Alternatively, use a
+ * chain of `strong...` functions like [strongMap] and [strongFlatMap] to create strong child references.
  * 
  * It is important that all data transformation functions are pure, meaning that they are side effect free and
  * do not access any mutable external state, in order to maintain the integrity of lazy evaluation. It is especially
