@@ -91,6 +91,13 @@ interface MutableProvider<T> : Provider<T> {
     }
     
     /**
+     * Sets the value of [this][MutableProvider] to the result of [lazyValue].
+     */
+    fun set(lazyValue: () -> T) {
+        update(DeferredValue.Lazy(lazyValue))
+    }
+    
+    /**
      * Sets the value of [this][MutableProvider] to [value].
      */
     operator fun <X> setValue(thisRef: X?, property: KProperty<*>, value: T) = set(value)

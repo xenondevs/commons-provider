@@ -115,6 +115,23 @@ class CoreProviderTest {
     }
     
     @Test
+    fun testProviderSetLazyIsLazy() {
+        var i = 0
+        
+        val provider = mutableProvider { ++i }
+        assertEquals(0, i)
+        assertEquals(1, provider.get())
+        assertEquals(1, provider.get())
+        assertEquals(1, i)
+        
+        provider.set { ++i }
+        assertEquals(1, i)
+        assertEquals(2, provider.get())
+        assertEquals(2, provider.get())
+        assertEquals(2, i)
+    }
+    
+    @Test
     fun testProviderSubscriber() {
         var invoked = false
         var invokedWeak = false
