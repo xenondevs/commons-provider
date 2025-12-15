@@ -230,20 +230,6 @@ internal abstract class AbstractProvider<T> : Provider<T> {
         provider.handleParentUpdated(this) // propagate potentially lost update during provider creation and child assignment
         return provider
     }
-    
-    override fun <R> flatMapMutable(transform: (T) -> MutableProvider<R>): MutableProvider<R> {
-        val provider = BidirectionalLazyFlatMappedProvider(this, transform, true)
-        addWeakChild(provider)
-        provider.handleParentUpdated(this) // propagate potentially lost update during provider creation and child assignment
-        return provider
-    }
-    
-    override fun <R> strongFlatMapMutable(transform: (T) -> MutableProvider<R>): MutableProvider<R> {
-        val provider = BidirectionalLazyFlatMappedProvider(this, transform, false)
-        addStrongChild(provider)
-        provider.handleParentUpdated(this) // propagate potentially lost update during provider creation and child assignment
-        return provider
-    }
     //</editor-fold>
     
     override fun equals(other: Any?): Boolean = other is Provider<*> && other.identifier === identifier

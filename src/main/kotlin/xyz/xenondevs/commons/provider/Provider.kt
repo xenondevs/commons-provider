@@ -156,33 +156,6 @@ interface Provider<out T> : Supplier<@UnsafeVariance T> {
     fun <R> flatMap(transform: (T) -> Provider<R>): Provider<R>
     
     /**
-     * Creates and returns new [MutableProvider] that lazily maps to the value of the [MutableProvider]
-     * returned by [transform].
-     *
-     * Contrary to [strongImmediateFlatMapMutable], this does not disable lazy evaluation of [this][Provider].
-     * Consequently, updates (for example in [subscribers][subscribe] or [observers][observe]) are only
-     * received after a flat-mapped provider has been resolved by evaluating the returned provider, applying [transform].
-     *
-     * [transform] should be a pure function.
-     */
-    fun <R> strongFlatMapMutable(transform: (T) -> MutableProvider<R>): MutableProvider<R>
-    
-    /**
-     * Creates and returns new [MutableProvider] that lazily maps to the value of the [MutableProvider]
-     * returned by [transform].
-     *
-     * Contrary to [immediateFlatMapMutable], this does not disable lazy evaluation of [this][Provider].
-     * Consequently, updates (for example in [subscribers][subscribe] or [observers][observe]) are only
-     * received after a flat-mapped provider has been resolved by evaluating the returned provider, applying [transform].
-     *
-     * [transform] should be a pure function.
-     * 
-     * The returned provider will only be stored in a [WeakReference] in the parent providers
-     * ([this][MutableProvider] and the result of [transform]).
-     */
-    fun <R> flatMapMutable(transform: (T) -> MutableProvider<R>): MutableProvider<R>
-    
-    /**
      * Registers a function that will be called with the new value whenever the value of this [Provider] changes.
      * If multiple threads update the value concurrently, intermediate subscriber invocations may be skipped and
      * values may be out of order.

@@ -200,22 +200,6 @@ class ParallelProviderTest {
     }
     
     @Test
-    fun `test for lost update on provider creation via flatMapMutable`() {
-        testForProviderCreationLostUpdate(0, 1, 2) { provider ->
-            val selection = listOf(mutableProvider(1), mutableProvider(2))
-            provider.flatMapMutable { selection[it] }
-        }
-    }
-    
-    @Test
-    fun `test for lost update on provider creation via strongFlatMapMutable`() {
-        testForProviderCreationLostUpdate(0, 1, 2) { provider ->
-            val selection = listOf(mutableProvider(1), mutableProvider(2))
-            provider.strongFlatMapMutable { selection[it] }
-        }
-    }
-    
-    @Test
     fun `test for lost update on provider creation via mapObserved`() {
         testForProviderCreationLostUpdate(
             mutableListOf(),

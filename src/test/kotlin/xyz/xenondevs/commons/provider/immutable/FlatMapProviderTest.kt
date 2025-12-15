@@ -1,6 +1,5 @@
 package xyz.xenondevs.commons.provider.immutable
 
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import xyz.xenondevs.commons.provider.DeferredValue
 import xyz.xenondevs.commons.provider.MutableProvider
@@ -84,20 +83,6 @@ class FlatMapProviderTest {
         assertEquals(2, flatMappedIdentity.get())
     }
     
-    // fixme
-    @Disabled
-    @Test
-    fun testFlatMapDynamicParentIsCreatedLazily() {
-        val staticParent = mutableProvider(0)
-        lateinit var dynamicParent: MutableProvider<String>
-        val flatMapped = staticParent.flatMapMutable { 
-            dynamicParent = mutableProvider("a")
-            dynamicParent
-        }
-        flatMapped.set("b")
-        assertEquals("b", dynamicParent.get())
-    }
-    
     @Test
     fun testFlatMapResultPropagated() {
         val staticParent = mutableProvider(0)
@@ -128,55 +113,6 @@ class FlatMapProviderTest {
     }
     
     @Test
-    fun testFlatMapMutable() {
-        val a = mutableProvider(1)
-        val b = mutableProvider(2)
-        val selector = mutableProvider(a)
-        
-        var flatMapTransformExecCount = 0
-        var flatMapObserverFiredCount = 0
-        
-        val flatMapped = selector.flatMapMutable {
-            flatMapTransformExecCount++
-            it
-        }
-        flatMapped.observe { flatMapObserverFiredCount++ }
-        
-        // flat map transform will not be executed before its value is resolved
-        selector.set(b)
-        selector.set(a)
-        assertEquals(0, flatMapTransformExecCount)
-        assertEquals(0, flatMapObserverFiredCount)
-        
-        // resolve flat-mapped provider
-        assertEquals(1, flatMapped.get())
-        assertEquals(1, flatMapTransformExecCount)
-        
-        // already resolved flat-mapped provider should not run transform again
-        assertEquals(1, flatMapped.get())
-        assertEquals(1, flatMapTransformExecCount)
-        
-        // flat-mapped provider allows setting value
-        flatMapped.set(-1)
-        flatMapped.set(1)
-        flatMapped.set(-1)
-        assertEquals(-1, flatMapped.get())
-        assertEquals(-1, a.get())
-        assertEquals(3, flatMapObserverFiredCount)
-        
-        // now, observer's will be fired once if the value changes
-        assertEquals(3, flatMapObserverFiredCount)
-        selector.set(b)
-        selector.set(a)
-        selector.set(b)
-        assertEquals(4, flatMapObserverFiredCount)
-        
-        // switching the selected provider works properly
-        assertEquals(2, flatMapped.get())
-        assertEquals(2, flatMapTransformExecCount)
-    }
-    
-    @Test
     fun testFlatten() {
         var resolved = false
         
@@ -194,30 +130,6 @@ class FlatMapProviderTest {
         assertTrue(resolved)
         outer.set(inner2)
         assertEquals(2, flattened.get())
-    }
-    
-    @Test
-    fun testFlattenMutable() {
-        var resolved = false
-        
-        val inner1 = mutableProvider(1)
-        val inner2 = mutableProvider(2)
-        val outer = mutableProvider {
-            resolved = true
-            inner1
-        }
-        
-        val flattened = outer.flatten()
-        
-        assertFalse(resolved)
-        assertEquals(1, flattened.get())
-        assertTrue(resolved)
-        outer.set(inner2)
-        assertEquals(2, flattened.get())
-        flattened.set(3)
-        assertEquals(1, inner1.get())
-        assertEquals(3, inner2.get())
-        assertEquals(3, flattened.get())
     }
     
     @Test

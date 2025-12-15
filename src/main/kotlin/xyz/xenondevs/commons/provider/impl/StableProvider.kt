@@ -41,12 +41,6 @@ internal class StableProvider<T>(override val value: DeferredValue<T>) : Provide
     override fun <R> strongFlatMap(transform: (T) -> Provider<R>): Provider<R> =
         UnidirectionalLazyFlatMappedProvider(this, transform, false)
     
-    override fun <R> flatMapMutable(transform: (T) -> MutableProvider<R>): MutableProvider<R> =
-        BidirectionalLazyFlatMappedProvider(this, transform, true)
-    
-    override fun <R> strongFlatMapMutable(transform: (T) -> MutableProvider<R>): MutableProvider<R> =
-        BidirectionalLazyFlatMappedProvider(this, transform, false)
-    
     // the value is immutable, so subscribers / observers would never be called
     override fun subscribe(action: (T) -> Unit) = Unit
     override fun observe(action: () -> Unit) = Unit

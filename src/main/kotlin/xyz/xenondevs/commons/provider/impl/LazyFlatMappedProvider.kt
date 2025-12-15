@@ -159,15 +159,3 @@ internal class UnidirectionalLazyFlatMappedProvider<P, T>(
     transform: (P) -> Provider<T>,
     weak: Boolean
 ) : AbstractLazyFlatMappedProvider<P, T, Provider<T>>(staticParent, transform, weak)
-
-internal class BidirectionalLazyFlatMappedProvider<P, T>(
-    staticParent: Provider<P>,
-    transform: (P) -> MutableProvider<T>,
-    weak: Boolean
-) : AbstractLazyFlatMappedProvider<P, T, MutableProvider<T>>(staticParent, transform, weak), MutableProviderDefaults<T> {
-    
-    override fun update(value: DeferredValue<T>, ignore: Set<Provider<*>>): Boolean {
-        return lazyDynamicParentContainer.value.dynamicParent.update(value)
-    }
-    
-}
