@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test
 import xyz.xenondevs.commons.provider.Provider
 import xyz.xenondevs.commons.provider.mutableProvider
 import xyz.xenondevs.commons.provider.orElse
+import xyz.xenondevs.commons.provider.orElseBy
 import xyz.xenondevs.commons.provider.orElseLazily
 import xyz.xenondevs.commons.provider.orElseNew
 import xyz.xenondevs.commons.provider.provider
@@ -32,7 +33,7 @@ class FallbackProviderTest {
     fun testOrElseChained() {
         val mutProvider = mutableProvider<Int?>(null)
         val provider: Provider<Int?> = mutProvider
-        val orElse1: Provider<Int?> = provider.orElse(null)
+        val orElse1: Provider<Int?> = provider.orElseBy(null)
         val orElse2: Provider<Int> = orElse1.orElse(1)
         
         assertEquals(null, provider.get())
@@ -67,7 +68,7 @@ class FallbackProviderTest {
         val provider: Provider<Int?> = mutProvider
         val fallbackProvider = mutableProvider<Int?>(null)
         
-        val orElse = provider.orElse(fallbackProvider)
+        val orElse = provider.orElseBy(fallbackProvider)
         
         assertEquals(null, provider.get())
         assertEquals(null, fallbackProvider.get())
@@ -96,9 +97,9 @@ class FallbackProviderTest {
     fun testOrElseNullableProvider() {
         val provider = mutableProvider<Int?>(null)
         var fallback: Provider<Int>? = provider(10)
-        val orElse1 = provider.orElse(fallback)
+        val orElse1 = provider.orElseBy(fallback)
         fallback = null
-        val orElse2 = provider.orElse(fallback as Provider<Int>?)
+        val orElse2 = provider.orElseBy(fallback as Provider<Int>?)
         
         assertEquals(null, provider.get())
         assertEquals(10, orElse1.get())
@@ -162,7 +163,7 @@ class FallbackProviderTest {
             fallbackEvaluated = true
             42
         }
-        val result = root.orElse(fallback)
+        val result = root.orElseBy(fallback)
         
         assertFalse(rootEvaluated)
         assertFalse(fallbackEvaluated)
@@ -177,7 +178,7 @@ class FallbackProviderTest {
     fun testOrElseProviderParentsSet() {
         val root = mutableProvider<Int?>(null)
         val fallback = mutableProvider(42)
-        val result = root.orElse(fallback)
+        val result = root.orElseBy(fallback)
         
         assertEquals(emptySet(), root.parents)
         assertEquals(emptySet(), fallback.parents)
@@ -188,7 +189,7 @@ class FallbackProviderTest {
     fun testOrElseProviderChildrenSet() {
         val root = mutableProvider<Int?>(null)
         val fallback = mutableProvider(42)
-        val result = root.orElse(fallback)
+        val result = root.orElseBy(fallback)
         
         assertEquals(setOf(result), root.children)
         assertEquals(setOf(result), fallback.children)
