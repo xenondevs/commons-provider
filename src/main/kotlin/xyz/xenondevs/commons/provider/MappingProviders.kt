@@ -57,6 +57,44 @@ fun <R> Provider<Provider<R>>.flatten(): Provider<R> = flatMap { it }
 fun <R> Provider<Provider<R>>.strongFlatten(): Provider<R> = strongFlatMap { it }
 
 /**
+ * Creates and returns a new [Provider] that maps to the provider that is the value of [this][Provider].
+ *
+ * This function is equivalent to `provider.immediateFlatMap { it ?: NULL_PROVIDER }`.
+ *
+ * The returned provider will only be stored in a [WeakReference] in the parent providers
+ * ([this][Provider] and the value of this).
+ */
+@JvmName("immediateFlattenNullable")
+fun <R> Provider<Provider<R>?>.immediateFlatten(): Provider<R?> = immediateFlatMap { it ?: NULL_PROVIDER }
+
+/**
+ * Creates and returns a new [Provider] that maps to the provider that is the value of [this][Provider].
+ *
+ * This function is equivalent to `provider.strongImmediateFlatMap { it ?: NULL_PROVIDER }`.
+ */
+@JvmName("strongImmediateFlattenNullable")
+fun <R> Provider<Provider<R>?>.strongImmediateFlatten(): Provider<R?> = strongImmediateFlatMap { it ?: NULL_PROVIDER }
+
+/**
+ * Creates and returns a new [Provider] that lazily maps to the provider that is the value of [this][Provider].
+ *
+ * This function is equivalent to `provider.flatMap { it ?: NULL_PROVIDER }`.
+ *
+ * The returned provider will only be stored in a [WeakReference] in the parent providers
+ * ([this][Provider] and the value of this).
+ */
+@JvmName("flattenNullable")
+fun <R> Provider<Provider<R>?>.flatten(): Provider<R?> = flatMap { it ?: NULL_PROVIDER }
+
+/**
+ * Creates and returns a new [Provider] that lazily maps to the provider that is the value of [this][Provider].
+ *
+ * This function is equivalent to `provider.strongFlatMap { it ?: NULL_PROVIDER }`.
+ */
+@JvmName("strongFlattenNullable")
+fun <R> Provider<Provider<R>?>.strongFlatten(): Provider<R?> = strongFlatMap { it ?: NULL_PROVIDER }
+
+/**
  * Creates and returns a new [Provider] that maps non-null values of [this][Provider]
  * using the [transform] function.
  * Null values will be passed through without transformation.
