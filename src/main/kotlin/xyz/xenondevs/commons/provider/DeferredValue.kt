@@ -69,9 +69,9 @@ interface DeferredValue<out T> : Comparable<DeferredValue<*>> {
      * A [DeferredValue] that is the result of applying [transform] to the value of [parent].
      * Inherits the sequence number from [parent].
      */
-    class Mapped<P, T>(val parent: DeferredValue<P>, val transform: (P) -> T) : DeferredValue<T> {
+    class Mapped<P, T>(parent: DeferredValue<P>, transform: (P) -> T) : DeferredValue<T> {
         
-        override val seqNo: Long get() = parent.seqNo
+        override val seqNo: Long = parent.seqNo
         override val value: T by lazy { transform(parent.value) }
         
     }
@@ -80,9 +80,9 @@ interface DeferredValue<out T> : Comparable<DeferredValue<*>> {
      * A [DeferredValue] that is the result of applying [transform] to the values of all [parents].
      * Inherits the highest sequence number of all [parents].
      */
-    class MappedMulti<P, T>(val parents: List<DeferredValue<P>>, val transform: (List<P>) -> T) : DeferredValue<T> {
+    class MappedMulti<P, T>(parents: List<DeferredValue<P>>, transform: (List<P>) -> T) : DeferredValue<T> {
         
-        override val seqNo: Long get() = parents.maxOf { it.seqNo }
+        override val seqNo: Long = parents.maxOf { it.seqNo }
         override val value: T by lazy { transform(parents.map { it.value }) }
         
     }
@@ -90,7 +90,7 @@ interface DeferredValue<out T> : Comparable<DeferredValue<*>> {
     /**
      * A [DeferredValue] that delegates its value to [parent] but generates a new sequence number when created.
      */
-    class ReEmitted<T>(val parent: DeferredValue<T>): DeferredValue<T> {
+    class ReEmitted<T>(private val parent: DeferredValue<T>) : DeferredValue<T> {
         
         override val seqNo: Long = nextSeqNo()
         override val value: T get() = parent.value
