@@ -118,6 +118,9 @@ internal class MultiUnidirectionalTransformingProvider<P, T> private constructor
     companion object {
         
         fun <P, T> of(parents: List<Provider<P>>, weak: Boolean, transform: (List<P>) -> T): Provider<T> {
+            if (parents.isEmpty())
+                return StableProvider(DeferredValue.Lazy { transform(emptyList()) })
+            
             if (parents.all { it.delegate.isStable })
                 return StableProvider(DeferredValue.MappedMulti(parents.map { it.delegate.value }, transform))
             

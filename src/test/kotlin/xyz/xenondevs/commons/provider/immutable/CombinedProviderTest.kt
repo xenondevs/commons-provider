@@ -3,6 +3,7 @@ package xyz.xenondevs.commons.provider.immutable
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
+import xyz.xenondevs.commons.provider.Provider
 import xyz.xenondevs.commons.provider.combinedProvider
 import xyz.xenondevs.commons.provider.mutableProvider
 import xyz.xenondevs.commons.tuple.Tuple10
@@ -118,6 +119,12 @@ class CombinedProviderTest {
             else -> throw UnsupportedOperationException()
         }
         assertEquals(expectedUpdated, combined.get())
+    }
+    
+    @Test
+    fun `test combine zero providers`() {
+        val combined = combinedProvider(emptyList<Provider<Nothing>>()) { it.size }
+        assertEquals(0, combined.get())
     }
     
 }
