@@ -6,7 +6,7 @@ plugins {
 }
 
 group = "xyz.xenondevs.commons"
-version = "2.0.0-alpha.8"
+version = "2.0.0-alpha.9"
 
 repositories {
     mavenCentral()
