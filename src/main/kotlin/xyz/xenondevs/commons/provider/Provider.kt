@@ -37,13 +37,15 @@ interface Provider<out T> : Supplier<@UnsafeVariance T> {
     
     /**
      * A snapshot of the direct parents of this [Provider].
-     * May not necessarily contain parents if it can be determined that no updates will be received from them.
+     * May not necessarily contain parents if it can be determined that no updates will be received from them,
+     * as may be the case for [stable][isStable] providers.
      */
     val parents: Set<Provider<*>>
     
     /**
      * A snapshot of the direct children of this [Provider].
-     * May not necessarily contain children if it can be determined that no updates will be sent to them.
+     * May not necessarily contain children if it can be determined that no updates will be sent to them,
+     * as may be the case for [stable][isStable] providers.
      */
     val children: Set<Provider<*>>
     
@@ -53,11 +55,20 @@ interface Provider<out T> : Supplier<@UnsafeVariance T> {
     val value: DeferredValue<T>
     
     /**
-     * An object that semi-uniquely identifies this [Provider], intended to be used in equals and hashCode,
-     * in order to allow custom providers through delegation.
-     * Two providers should be considered equal iff their identifiers are identical (`===`).
+     * Whether this [Provider] is stable, i.e., its [value] will never change after being initialized.
      */
-    val identifier: Any
+    val isStable: Boolean
+    
+    /**
+     * If this [Provider] is implemented through delegation, the delegate.
+     * Otherwise, [this][Provider] provider itself.
+     * 
+     * A [delegate] must not also have a delegate (`delegate.delegate === delegate` must be true).
+     * 
+     * Two providers should be considered equal (`==`) iff their delegates are identical (`===`).
+     */
+    @UnstableProviderApi
+    val delegate: Provider<T>
         get() = this
     
     /**
@@ -245,6 +256,7 @@ interface Provider<out T> : Supplier<@UnsafeVariance T> {
      * Child management is performed automatically when creating a new provider,
      * so this should only be used for custom [Provider] implementations.
      */
+    @UnstableProviderApi
     fun addStrongChild(child: Provider<*>)
     
     /**
@@ -253,6 +265,7 @@ interface Provider<out T> : Supplier<@UnsafeVariance T> {
      * Child management is performed automatically when creating a new provider,
      * so this should only be used for custom [Provider] implementations.
      */
+    @UnstableProviderApi
     fun removeStrongChild(child: Provider<*>)
     
     /**
@@ -261,6 +274,7 @@ interface Provider<out T> : Supplier<@UnsafeVariance T> {
      * Child management is performed automatically when creating a new provider,
      * so this should only be used for custom [Provider] implementations.
      */
+    @UnstableProviderApi
     fun addWeakChild(child: Provider<*>)
     
     /**
@@ -269,6 +283,7 @@ interface Provider<out T> : Supplier<@UnsafeVariance T> {
      * Child management is performed automatically when creating a new provider,
      * so this should only be used for custom [Provider] implementations.
      */
+    @UnstableProviderApi
     fun removeWeakChild(child: Provider<*>)
     
     /**
@@ -277,6 +292,7 @@ interface Provider<out T> : Supplier<@UnsafeVariance T> {
      * Updating is performed automatically,
      * so this should only be used for custom [Provider] implementations.
      */
+    @UnstableProviderApi
     fun handleParentUpdated(updatedParent: Provider<*>)
     
 }

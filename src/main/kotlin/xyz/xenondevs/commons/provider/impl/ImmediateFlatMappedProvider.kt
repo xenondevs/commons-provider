@@ -1,8 +1,11 @@
+@file:OptIn(UnstableProviderApi::class)
+
 package xyz.xenondevs.commons.provider.impl
 
 import xyz.xenondevs.commons.provider.DeferredValue
 import xyz.xenondevs.commons.provider.MutableProvider
 import xyz.xenondevs.commons.provider.Provider
+import xyz.xenondevs.commons.provider.UnstableProviderApi
 
 /**
  * A flat-mapping provider provides the value [T] of a provider ([dynamic parent][dynamicParent]) that was created by applying a

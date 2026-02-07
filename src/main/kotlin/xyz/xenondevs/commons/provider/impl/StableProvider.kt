@@ -16,6 +16,8 @@ internal class StableProvider<T>(override val value: DeferredValue<T>) : Provide
         get() = emptySet()
     override val children: Set<Provider<*>>
         get() = emptySet()
+    override val isStable: Boolean
+        get() = true
     
     override fun <R> strongMap(transform: (T) -> R): Provider<R> =
         map(transform)
@@ -58,7 +60,7 @@ internal class StableProvider<T>(override val value: DeferredValue<T>) : Provide
     override fun removeWeakChild(child: Provider<*>) = Unit
     override fun handleParentUpdated(updatedParent: Provider<*>) = Unit
     
-    override fun equals(other: Any?): Boolean = other is Provider<*> && other.identifier === identifier
-    override fun hashCode(): Int = System.identityHashCode(identifier)
+    override fun equals(other: Any?): Boolean = other is Provider<*> && other.delegate === delegate
+    override fun hashCode(): Int = System.identityHashCode(delegate)
     
 }

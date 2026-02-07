@@ -33,6 +33,10 @@ import kotlin.reflect.KProperty
 @SubclassOptInRequired(UnstableProviderApi::class)
 interface MutableProvider<T> : Provider<T> {
     
+    @UnstableProviderApi
+    override val delegate: MutableProvider<T>
+        get() = this
+    
     /**
      * Creates and returns a new [MutableProvider] that maps the value of [this][MutableProvider]
      * bi-directionally using the provided [transform] and [untransform] functions.

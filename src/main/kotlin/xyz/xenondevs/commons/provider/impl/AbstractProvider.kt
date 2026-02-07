@@ -108,6 +108,9 @@ internal abstract class AbstractProvider<T> : Provider<T> {
     override val children: Set<Provider<*>>
         get() = updateHandlers.children
     
+    override val isStable: Boolean
+        get() = false
+    
     //<editor-fold desc="update handler modifications">
     override fun subscribe(action: (T) -> Unit) =
         synchronized(this) { updateHandlers = updateHandlers.withStrongSubscriber(action) }
@@ -232,8 +235,8 @@ internal abstract class AbstractProvider<T> : Provider<T> {
     }
     //</editor-fold>
     
-    override fun equals(other: Any?): Boolean = other is Provider<*> && other.identifier === identifier
-    override fun hashCode(): Int = System.identityHashCode(identifier)
+    override fun equals(other: Any?): Boolean = other is Provider<*> && other.delegate === delegate
+    override fun hashCode(): Int = System.identityHashCode(delegate)
 }
 
 internal interface MutableProviderDefaults<T> : MutableProvider<T> {

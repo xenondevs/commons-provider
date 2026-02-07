@@ -1,8 +1,11 @@
+@file:OptIn(UnstableProviderApi::class)
+
 package xyz.xenondevs.commons.provider.impl
 
 import xyz.xenondevs.commons.provider.DeferredValue
 import xyz.xenondevs.commons.provider.MutableProvider
 import xyz.xenondevs.commons.provider.Provider
+import xyz.xenondevs.commons.provider.UnstableProviderApi
 
 internal abstract class UnidirectionalProvider<P, T> : AbstractProvider<T>() {
     
@@ -115,9 +118,10 @@ internal class MultiUnidirectionalTransformingProvider<P, T> private constructor
     companion object {
         
         fun <P, T> of(parents: List<Provider<P>>, weak: Boolean, transform: (List<P>) -> T): Provider<T> {
-            if (parents.all { it is StableProvider })
-                return StableProvider(DeferredValue.MappedMulti(parents.map(Provider<P>::value), transform))
+            if (parents.all { it.delegate.isStable })
+                return StableProvider(DeferredValue.MappedMulti(parents.map { it.delegate.value }, transform))
             
+            val parents = parents.map { it.delegate }
             val provider = MultiUnidirectionalTransformingProvider(parents, transform)
             if (weak) {
                 for (parent in parents) {
