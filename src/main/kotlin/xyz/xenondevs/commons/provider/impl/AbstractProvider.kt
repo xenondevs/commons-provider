@@ -28,24 +28,24 @@ internal class UpdateHandlerCollection<T> private constructor(
     
     //<editor-fold desc="withers">
     fun withStrongSubscriber(subscriber: (T) -> Unit) =
-        copy(strongSubscribers = strongSubscribers.with(subscriber, ::setOf, ::HashSet))
+        copy(strongSubscribers = strongSubscribers.with(subscriber, ::setOf, HashSet<*>::newHashSet))
     
     fun withoutStrongSubscriber(subscriber: (T) -> Unit) =
-        copy(strongSubscribers = strongSubscribers.without(subscriber, ::setOf, ::HashSet))
+        copy(strongSubscribers = strongSubscribers.without(subscriber, ::setOf, HashSet<*>::newHashSet))
     
     
     fun withStrongObserver(observer: () -> Unit) =
-        copy(strongObservers = strongObservers.with(observer, ::setOf, ::HashSet))
+        copy(strongObservers = strongObservers.with(observer, ::setOf, HashSet<*>::newHashSet))
     
     fun withoutStrongObserver(observer: () -> Unit) =
-        copy(strongObservers = strongObservers.without(observer, ::setOf, ::HashSet))
+        copy(strongObservers = strongObservers.without(observer, ::setOf, HashSet<*>::newHashSet))
     
     
     fun withStrongChild(child: Provider<*>) =
-        copy(strongChildren = strongChildren.with(child, ::setOf, ::HashSet))
+        copy(strongChildren = strongChildren.with(child, ::setOf, HashSet<*>::newHashSet))
     
     fun withoutStrongChild(child: Provider<*>) =
-        copy(strongChildren = strongChildren.without(child, ::setOf, ::HashSet))
+        copy(strongChildren = strongChildren.without(child, ::setOf, HashSet<*>::newHashSet))
     
     
     fun withWeakChild(child: Provider<*>) =
@@ -56,20 +56,20 @@ internal class UpdateHandlerCollection<T> private constructor(
     
     
     fun <O : Any> withWeakSubscriber(owner: O, subscriber: (O, T) -> Unit) =
-        copy(weakSubscribers = weakSubscribers.with(owner, subscriber as (Any, T) -> Unit, ::SingleKeyWeakHashMap, ::WeakHashMap, ::setOf, ::HashSet))
+        copy(weakSubscribers = weakSubscribers.with(owner, subscriber as (Any, T) -> Unit, ::SingleKeyWeakHashMap, WeakHashMap<*, *>::newWeakHashMap, ::setOf, HashSet<*>::newHashSet))
     
     fun <O : Any> withoutWeakSubscriber(owner: O, subscriber: (O, T) -> Unit) =
-        copy(weakSubscribers = weakSubscribers.without(owner, subscriber as (Any, T) -> Unit, ::SingleKeyWeakHashMap, ::WeakHashMap, ::setOf, ::HashSet))
+        copy(weakSubscribers = weakSubscribers.without(owner, subscriber as (Any, T) -> Unit, ::SingleKeyWeakHashMap, WeakHashMap<*, *>::newWeakHashMap, ::setOf, HashSet<*>::newHashSet))
     
     fun withoutWeakSubscriber(owner: Any) =
         copy(weakSubscribers = WeakHashMap(weakSubscribers).apply { remove(owner) })
     
     
     fun <O : Any> withWeakObserver(owner: O, observer: (O) -> Unit) =
-        copy(weakObservers = weakObservers.with(owner, observer as (Any) -> Unit, ::SingleKeyWeakHashMap, ::WeakHashMap, ::setOf, ::HashSet))
+        copy(weakObservers = weakObservers.with(owner, observer as (Any) -> Unit, ::SingleKeyWeakHashMap, WeakHashMap<*, *>::newWeakHashMap, ::setOf, HashSet<*>::newHashSet))
     
     fun <O : Any> withoutWeakObserver(owner: O, observer: (O) -> Unit) =
-        copy(weakObservers = weakObservers.without(owner, observer as (Any) -> Unit, ::SingleKeyWeakHashMap, ::WeakHashMap, ::setOf, ::HashSet))
+        copy(weakObservers = weakObservers.without(owner, observer as (Any) -> Unit, ::SingleKeyWeakHashMap, WeakHashMap<*, *>::newWeakHashMap, ::setOf, HashSet<*>::newHashSet))
     
     fun withoutWeakObserver(owner: Any) =
         copy(weakObservers = WeakHashMap(weakObservers).apply { remove(owner) })

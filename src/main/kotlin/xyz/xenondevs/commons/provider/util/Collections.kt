@@ -4,10 +4,10 @@ package xyz.xenondevs.commons.provider.util
 import java.util.*
 
 /**
- * Creates a new empty weak hash set with the specified [initialCapacity].
+ * Creates a new empty weak hash set with the specified [numMappings].
  */
-internal fun <E> weakHashSet(initialCapacity: Int): MutableSet<E> =
-    Collections.newSetFromMap(WeakHashMap(initialCapacity))
+internal fun <E> weakHashSet(numMappings: Int): MutableSet<E> =
+    Collections.newSetFromMap(WeakHashMap.newWeakHashMap(numMappings))
 
 /**
  * Creates a copy of [this][Set] using [createSet] with an additional [element] added to it.
