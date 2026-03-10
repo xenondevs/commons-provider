@@ -26,16 +26,16 @@ internal class StableProvider<T>(override val value: DeferredValue<T>) : Provide
         StableProvider(DeferredValue.Mapped(value, transform))
     
     override fun <R> strongImmediateFlatMap(transform: (T) -> Provider<R>): Provider<R> =
-        transform(get())
+        transform(get()).delegate
     
     override fun <R> immediateFlatMap(transform: (T) -> Provider<R>): Provider<R> =
-        transform(get())
+        transform(get()).delegate
     
     override fun <R> strongImmediateFlatMapMutable(transform: (T) -> MutableProvider<R>): MutableProvider<R> =
-        transform(get())
+        transform(get()).delegate
     
     override fun <R> immediateFlatMapMutable(transform: (T) -> MutableProvider<R>): MutableProvider<R> =
-        transform(get())
+        transform(get()).delegate
     
     override fun <R> flatMap(transform: (T) -> Provider<R>): Provider<R> =
         UnidirectionalLazyFlatMappedProvider(this, transform, true)
@@ -59,8 +59,5 @@ internal class StableProvider<T>(override val value: DeferredValue<T>) : Provide
     override fun addWeakChild(child: Provider<*>) = Unit
     override fun removeWeakChild(child: Provider<*>) = Unit
     override fun handleParentUpdated(updatedParent: Provider<*>) = Unit
-    
-    override fun equals(other: Any?): Boolean = other is Provider<*> && other.delegate === delegate
-    override fun hashCode(): Int = System.identityHashCode(delegate)
     
 }

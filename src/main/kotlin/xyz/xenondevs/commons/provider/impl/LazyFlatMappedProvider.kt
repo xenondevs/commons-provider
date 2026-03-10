@@ -15,9 +15,9 @@ import xyz.xenondevs.commons.provider.UnstableProviderApi
  * resolved, which only happens when the value of this provider is resolved. When the static parent changes, the dynamic parent becomes
  * unresolved and future updates to the dynamic parent will not be propagated until the value of this provider is resolved.
  */
-internal abstract class AbstractLazyFlatMappedProvider<P, T, DP : Provider<T>>(
+internal class UnidirectionalLazyFlatMappedProvider<P, T>(
     private val staticParent: Provider<P>,
-    private val transform: (P) -> DP,
+    private val transform: (P) -> Provider<T>,
     private val weak: Boolean
 ) : AbstractProvider<T>() {
     
@@ -25,8 +25,7 @@ internal abstract class AbstractLazyFlatMappedProvider<P, T, DP : Provider<T>>(
     private var staticParentSeqNo: Long = staticParent.value.seqNo
     
     @Volatile
-    protected var lazyDynamicParentContainer: Lazy<DynamicParentContainer> = lazy(this, ::DynamicParentContainer)
-        private set
+    private var lazyDynamicParentContainer: Lazy<DynamicParentContainer> = lazy(this, ::DynamicParentContainer)
     
     @Volatile
     override var value: DeferredValue<T> = lazyDynamicParentContainer.toLazilyReEmittingDeferredValue()
@@ -131,16 +130,16 @@ internal abstract class AbstractLazyFlatMappedProvider<P, T, DP : Provider<T>>(
      */
     inner class DynamicParentContainer {
         
-        val dynamicParent: DP = transform(this@AbstractLazyFlatMappedProvider.staticParent.value.value)
+        val dynamicParent: Provider<T> = transform(this@UnidirectionalLazyFlatMappedProvider.staticParent.value.value).delegate
         
         @Volatile
         var dynamicParentSeqNo: Long = dynamicParent.value.seqNo
         
         init {
             if (weak) {
-                dynamicParent.addWeakChild(this@AbstractLazyFlatMappedProvider)
+                dynamicParent.addWeakChild(this@UnidirectionalLazyFlatMappedProvider)
             } else {
-                dynamicParent.addStrongChild(this@AbstractLazyFlatMappedProvider)
+                dynamicParent.addStrongChild(this@UnidirectionalLazyFlatMappedProvider)
             }
         }
         
@@ -156,9 +155,3 @@ internal abstract class AbstractLazyFlatMappedProvider<P, T, DP : Provider<T>>(
     }
     
 }
-
-internal class UnidirectionalLazyFlatMappedProvider<P, T>(
-    staticParent: Provider<P>,
-    transform: (P) -> Provider<T>,
-    weak: Boolean
-) : AbstractLazyFlatMappedProvider<P, T, Provider<T>>(staticParent, transform, weak)

@@ -62,10 +62,6 @@ interface Provider<out T> : Supplier<@UnsafeVariance T> {
     /**
      * If this [Provider] is implemented through delegation, the delegate.
      * Otherwise, [this][Provider] provider itself.
-     * 
-     * A [delegate] must not also have a delegate (`delegate.delegate === delegate` must be true).
-     * 
-     * Two providers should be considered equal (`==`) iff their delegates are identical (`===`).
      */
     @UnstableProviderApi
     val delegate: Provider<T>

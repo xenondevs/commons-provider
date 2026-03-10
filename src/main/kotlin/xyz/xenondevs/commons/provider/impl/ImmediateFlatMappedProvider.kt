@@ -35,7 +35,7 @@ internal abstract class AbstractImmediateFlatMappedProvider<P, T, DP : Provider<
     
     init {
         val staticParentValue = staticParent.value
-        dynamicParent = transform(staticParentValue.value)
+        dynamicParent = transform(staticParentValue.value).delegate as DP
         if (weak) dynamicParent.addWeakChild(this) else dynamicParent.addStrongChild(this)
         value = DeferredValue.ReEmitted(dynamicParent.value)
         staticParentSeqNo = staticParentValue.seqNo
@@ -96,7 +96,7 @@ internal abstract class AbstractImmediateFlatMappedProvider<P, T, DP : Provider<
                 return
             
             val currentDynamicParent = dynamicParent
-            val newDynamicParent = transform(staticParentValue.value)
+            val newDynamicParent = transform(staticParentValue.value).delegate as DP
             if (newDynamicParent != currentDynamicParent) {
                 if (weak) currentDynamicParent.removeWeakChild(this) else currentDynamicParent.removeStrongChild(this)
                 if (weak) newDynamicParent.addWeakChild(this) else newDynamicParent.addStrongChild(this)
