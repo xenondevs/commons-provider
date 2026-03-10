@@ -76,6 +76,179 @@ interface DeferredValue<out T> : Comparable<DeferredValue<*>> {
         
     }
     
+    //<editor-fold desc="mapped with fixed arity">
+    /**
+     * A [DeferredValue] that is the result of applying [transform] to the values of [parentA] and [parentB].
+     * Inherits the highest sequence number of its parents.
+     */
+    class Mapped2<A, B, T>(
+        private val parentA: DeferredValue<A>,
+        private val parentB: DeferredValue<B>,
+        private val transform: (A, B) -> T
+    ) : DeferredValue<T> {
+        
+        override val seqNo: Long = maxOf(parentA.seqNo, parentB.seqNo)
+        override val value: T by lazy { transform(parentA.value, parentB.value) }
+        
+    }
+    
+    /**
+     * A [DeferredValue] that is the result of applying [transform] to the values of [parentA], [parentB], and [parentC].
+     * Inherits the highest sequence number of its parents.
+     */
+    class Mapped3<A, B, C, T>(
+        private val parentA: DeferredValue<A>,
+        private val parentB: DeferredValue<B>,
+        private val parentC: DeferredValue<C>,
+        private val transform: (A, B, C) -> T
+    ) : DeferredValue<T> {
+        
+        override val seqNo: Long = maxOf(parentA.seqNo, parentB.seqNo, parentC.seqNo)
+        override val value: T by lazy { transform(parentA.value, parentB.value, parentC.value) }
+        
+    }
+    
+    /**
+     * A [DeferredValue] that is the result of applying [transform] to the values of [parentA], [parentB], [parentC], and [parentD].
+     * Inherits the highest sequence number of its parents.
+     */
+    class Mapped4<A, B, C, D, T>(
+        private val parentA: DeferredValue<A>,
+        private val parentB: DeferredValue<B>,
+        private val parentC: DeferredValue<C>,
+        private val parentD: DeferredValue<D>,
+        private val transform: (A, B, C, D) -> T
+    ) : DeferredValue<T> {
+        
+        override val seqNo: Long = maxOf(parentA.seqNo, parentB.seqNo, parentC.seqNo, parentD.seqNo)
+        override val value: T by lazy { transform(parentA.value, parentB.value, parentC.value, parentD.value) }
+        
+    }
+    
+    /**
+     * A [DeferredValue] that is the result of applying [transform] to the values of [parentA], [parentB], [parentC], [parentD], and [parentE].
+     * Inherits the highest sequence number of its parents.
+     */
+    class Mapped5<A, B, C, D, E, T>(
+        private val parentA: DeferredValue<A>,
+        private val parentB: DeferredValue<B>,
+        private val parentC: DeferredValue<C>,
+        private val parentD: DeferredValue<D>,
+        private val parentE: DeferredValue<E>,
+        private val transform: (A, B, C, D, E) -> T
+    ) : DeferredValue<T> {
+        
+        override val seqNo: Long = maxOf(parentA.seqNo, parentB.seqNo, parentC.seqNo, parentD.seqNo, parentE.seqNo)
+        override val value: T by lazy { transform(parentA.value, parentB.value, parentC.value, parentD.value, parentE.value) }
+        
+    }
+    
+    /**
+     * A [DeferredValue] that is the result of applying [transform] to the values of [parentA], [parentB], [parentC], [parentD], [parentE], and [parentF].
+     * Inherits the highest sequence number of its parents.
+     */
+    class Mapped6<A, B, C, D, E, F, T>(
+        private val parentA: DeferredValue<A>,
+        private val parentB: DeferredValue<B>,
+        private val parentC: DeferredValue<C>,
+        private val parentD: DeferredValue<D>,
+        private val parentE: DeferredValue<E>,
+        private val parentF: DeferredValue<F>,
+        private val transform: (A, B, C, D, E, F) -> T
+    ) : DeferredValue<T> {
+        
+        override val seqNo: Long = maxOf(parentA.seqNo, parentB.seqNo, parentC.seqNo, parentD.seqNo, parentE.seqNo, parentF.seqNo)
+        override val value: T by lazy { transform(parentA.value, parentB.value, parentC.value, parentD.value, parentE.value, parentF.value) }
+        
+    }
+    
+    /**
+     * A [DeferredValue] that is the result of applying [transform] to the values of [parentA], [parentB], [parentC], [parentD], [parentE], [parentF], and [parentG].
+     * Inherits the highest sequence number of its parents.
+     */
+    class Mapped7<A, B, C, D, E, F, G, T>(
+        private val parentA: DeferredValue<A>,
+        private val parentB: DeferredValue<B>,
+        private val parentC: DeferredValue<C>,
+        private val parentD: DeferredValue<D>,
+        private val parentE: DeferredValue<E>,
+        private val parentF: DeferredValue<F>,
+        private val parentG: DeferredValue<G>,
+        private val transform: (A, B, C, D, E, F, G) -> T
+    ) : DeferredValue<T> {
+        
+        override val seqNo: Long = maxOf(parentA.seqNo, parentB.seqNo, parentC.seqNo, parentD.seqNo, parentE.seqNo, parentF.seqNo, parentG.seqNo)
+        override val value: T by lazy { transform(parentA.value, parentB.value, parentC.value, parentD.value, parentE.value, parentF.value, parentG.value) }
+        
+    }
+    
+    /**
+     * A [DeferredValue] that is the result of applying [transform] to the values of [parentA], [parentB], [parentC], [parentD], [parentE], [parentF], [parentG], and [parentH].
+     * Inherits the highest sequence number of its parents.
+     */
+    class Mapped8<A, B, C, D, E, F, G, H, T>(
+        private val parentA: DeferredValue<A>,
+        private val parentB: DeferredValue<B>,
+        private val parentC: DeferredValue<C>,
+        private val parentD: DeferredValue<D>,
+        private val parentE: DeferredValue<E>,
+        private val parentF: DeferredValue<F>,
+        private val parentG: DeferredValue<G>,
+        private val parentH: DeferredValue<H>,
+        private val transform: (A, B, C, D, E, F, G, H) -> T
+    ) : DeferredValue<T> {
+        
+        override val seqNo: Long = maxOf(parentA.seqNo, parentB.seqNo, parentC.seqNo, parentD.seqNo, parentE.seqNo, parentF.seqNo, parentG.seqNo, parentH.seqNo)
+        override val value: T by lazy { transform(parentA.value, parentB.value, parentC.value, parentD.value, parentE.value, parentF.value, parentG.value, parentH.value) }
+        
+    }
+    
+    /**
+     * A [DeferredValue] that is the result of applying [transform] to the values of [parentA], [parentB], [parentC], [parentD], [parentE], [parentF], [parentG], [parentH], and [parentI].
+     * Inherits the highest sequence number of its parents.
+     */
+    class Mapped9<A, B, C, D, E, F, G, H, I, T>(
+        private val parentA: DeferredValue<A>,
+        private val parentB: DeferredValue<B>,
+        private val parentC: DeferredValue<C>,
+        private val parentD: DeferredValue<D>,
+        private val parentE: DeferredValue<E>,
+        private val parentF: DeferredValue<F>,
+        private val parentG: DeferredValue<G>,
+        private val parentH: DeferredValue<H>,
+        private val parentI: DeferredValue<I>,
+        private val transform: (A, B, C, D, E, F, G, H, I) -> T
+    ) : DeferredValue<T> {
+        
+        override val seqNo: Long = maxOf(parentA.seqNo, parentB.seqNo, parentC.seqNo, parentD.seqNo, parentE.seqNo, parentF.seqNo, parentG.seqNo, parentH.seqNo, parentI.seqNo)
+        override val value: T by lazy { transform(parentA.value, parentB.value, parentC.value, parentD.value, parentE.value, parentF.value, parentG.value, parentH.value, parentI.value) }
+        
+    }
+    
+    /**
+     * A [DeferredValue] that is the result of applying [transform] to the values of [parentA], [parentB], [parentC], [parentD], [parentE], [parentF], [parentG], [parentH], [parentI], and [parentJ].
+     * Inherits the highest sequence number of its parents.
+     */
+    class Mapped10<A, B, C, D, E, F, G, H, I, J, T>(
+        private val parentA: DeferredValue<A>,
+        private val parentB: DeferredValue<B>,
+        private val parentC: DeferredValue<C>,
+        private val parentD: DeferredValue<D>,
+        private val parentE: DeferredValue<E>,
+        private val parentF: DeferredValue<F>,
+        private val parentG: DeferredValue<G>,
+        private val parentH: DeferredValue<H>,
+        private val parentI: DeferredValue<I>,
+        private val parentJ: DeferredValue<J>,
+        private val transform: (A, B, C, D, E, F, G, H, I, J) -> T
+    ) : DeferredValue<T> {
+        
+        override val seqNo: Long = maxOf(parentA.seqNo, parentB.seqNo, parentC.seqNo, parentD.seqNo, parentE.seqNo, parentF.seqNo, parentG.seqNo, parentH.seqNo, parentI.seqNo, parentJ.seqNo)
+        override val value: T by lazy { transform(parentA.value, parentB.value, parentC.value, parentD.value, parentE.value, parentF.value, parentG.value, parentH.value, parentI.value, parentJ.value) }
+        
+    }
+    //</editor-fold>
+    
     /**
      * A [DeferredValue] that is the result of applying [transform] to the values of all [parents].
      * Inherits the highest sequence number of all [parents].

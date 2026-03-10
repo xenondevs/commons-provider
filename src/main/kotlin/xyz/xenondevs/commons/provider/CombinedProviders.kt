@@ -1,6 +1,5 @@
 @file:JvmName("Providers")
 @file:JvmMultifileClass
-@file:Suppress("UNCHECKED_CAST")
 
 package xyz.xenondevs.commons.provider
 
@@ -28,9 +27,7 @@ fun <T> strongCombinedProvider(providers: List<Provider<T>>): Provider<List<T>> 
 fun <A, B> strongCombinedProvider(
     a: Provider<A>,
     b: Provider<B>
-): Provider<Tuple2<A, B>> = MultiUnidirectionalTransformingProvider.of(
-    listOf(a, b), false
-) { Tuple2(it[0] as A, it[1] as B) }
+): Provider<Tuple2<A, B>> = strongCombinedProvider(a, b, ::Tuple2)
 
 /**
  * Creates and returns a new [Provider] that combines the values of [a], [b] and [c].
@@ -39,9 +36,7 @@ fun <A, B, C> strongCombinedProvider(
     a: Provider<A>,
     b: Provider<B>,
     c: Provider<C>
-): Provider<Tuple3<A, B, C>> = MultiUnidirectionalTransformingProvider.of(
-    listOf(a, b, c), false
-) { Tuple3(it[0] as A, it[1] as B, it[2] as C) }
+): Provider<Tuple3<A, B, C>> = strongCombinedProvider(a, b, c, ::Tuple3)
 
 /**
  * Creates and returns a new [Provider] that combines the values of [a], [b], [c] and [d].
@@ -51,10 +46,7 @@ fun <A, B, C, D> strongCombinedProvider(
     b: Provider<B>,
     c: Provider<C>,
     d: Provider<D>
-): Provider<Tuple4<A, B, C, D>> = MultiUnidirectionalTransformingProvider.of(
-    listOf(a, b, c, d), false
-) { Tuple4(it[0] as A, it[1] as B, it[2] as C, it[3] as D) }
-
+): Provider<Tuple4<A, B, C, D>> = strongCombinedProvider(a, b, c, d, ::Tuple4)
 
 /**
  * Creates and returns a new [Provider] that combines the values of [a], [b], [c], [d] and [e].
@@ -65,9 +57,7 @@ fun <A, B, C, D, E> strongCombinedProvider(
     c: Provider<C>,
     d: Provider<D>,
     e: Provider<E>
-): Provider<Tuple5<A, B, C, D, E>> = MultiUnidirectionalTransformingProvider.of(
-    listOf(a, b, c, d, e), false
-) { Tuple5(it[0] as A, it[1] as B, it[2] as C, it[3] as D, it[4] as E) }
+): Provider<Tuple5<A, B, C, D, E>> = strongCombinedProvider(a, b, c, d, e, ::Tuple5)
 
 /**
  * Creates and returns a new [Provider] that combines the values of [a], [b], [c], [d], [e] and [f].
@@ -79,9 +69,7 @@ fun <A, B, C, D, E, F> strongCombinedProvider(
     d: Provider<D>,
     e: Provider<E>,
     f: Provider<F>
-): Provider<Tuple6<A, B, C, D, E, F>> = MultiUnidirectionalTransformingProvider.of(
-    listOf(a, b, c, d, e, f), false
-) { Tuple6(it[0] as A, it[1] as B, it[2] as C, it[3] as D, it[4] as E, it[5] as F) }
+): Provider<Tuple6<A, B, C, D, E, F>> = strongCombinedProvider(a, b, c, d, e, f, ::Tuple6)
 
 /**
  * Creates and returns a new [Provider] that combines the values of [a], [b], [c], [d], [e], [f] and [g].
@@ -94,9 +82,7 @@ fun <A, B, C, D, E, F, G> strongCombinedProvider(
     e: Provider<E>,
     f: Provider<F>,
     g: Provider<G>
-): Provider<Tuple7<A, B, C, D, E, F, G>> = MultiUnidirectionalTransformingProvider.of(
-    listOf(a, b, c, d, e, f, g), false
-) { Tuple7(it[0] as A, it[1] as B, it[2] as C, it[3] as D, it[4] as E, it[5] as F, it[6] as G) }
+): Provider<Tuple7<A, B, C, D, E, F, G>> = strongCombinedProvider(a, b, c, d, e, f, g, ::Tuple7)
 
 /**
  * Creates and returns a new [Provider] that combines the values of [a], [b], [c], [d], [e], [f], [g] and [h].
@@ -110,9 +96,7 @@ fun <A, B, C, D, E, F, G, H> strongCombinedProvider(
     f: Provider<F>,
     g: Provider<G>,
     h: Provider<H>
-): Provider<Tuple8<A, B, C, D, E, F, G, H>> = MultiUnidirectionalTransformingProvider.of(
-    listOf(a, b, c, d, e, f, g, h), false
-) { Tuple8(it[0] as A, it[1] as B, it[2] as C, it[3] as D, it[4] as E, it[5] as F, it[6] as G, it[7] as H) }
+): Provider<Tuple8<A, B, C, D, E, F, G, H>> = strongCombinedProvider(a, b, c, d, e, f, g, h, ::Tuple8)
 
 /**
  * Creates and returns a new [Provider] that combines the values of [a], [b], [c], [d], [e], [f], [g], [h] and [i].
@@ -127,9 +111,7 @@ fun <A, B, C, D, E, F, G, H, I> strongCombinedProvider(
     g: Provider<G>,
     h: Provider<H>,
     i: Provider<I>
-): Provider<Tuple9<A, B, C, D, E, F, G, H, I>> = MultiUnidirectionalTransformingProvider.of(
-    listOf(a, b, c, d, e, f, g, h, i), false
-) { Tuple9(it[0] as A, it[1] as B, it[2] as C, it[3] as D, it[4] as E, it[5] as F, it[6] as G, it[7] as H, it[8] as I) }
+): Provider<Tuple9<A, B, C, D, E, F, G, H, I>> = strongCombinedProvider(a, b, c, d, e, f, g, h, i, ::Tuple9)
 
 /**
  * Creates and returns a new [Provider] that combines the values of [a], [b], [c], [d], [e], [f], [g], [h], [i] and [j].
@@ -145,9 +127,7 @@ fun <A, B, C, D, E, F, G, H, I, J> strongCombinedProvider(
     h: Provider<H>,
     i: Provider<I>,
     j: Provider<J>
-): Provider<Tuple10<A, B, C, D, E, F, G, H, I, J>> = MultiUnidirectionalTransformingProvider.of(
-    listOf(a, b, c, d, e, f, g, h, i, j), false
-) { Tuple10(it[0] as A, it[1] as B, it[2] as C, it[3] as D, it[4] as E, it[5] as F, it[6] as G, it[7] as H, it[8] as I, it[9] as J) }
+): Provider<Tuple10<A, B, C, D, E, F, G, H, I, J>> = strongCombinedProvider(a, b, c, d, e, f, g, h, i, j, ::Tuple10)
 
 /**
  * Creates and returns a new [Provider] that combines all values of [providers].
@@ -165,9 +145,7 @@ fun <T> combinedProvider(providers: List<Provider<T>>): Provider<List<T>> =
 fun <A, B> combinedProvider(
     a: Provider<A>,
     b: Provider<B>
-): Provider<Tuple2<A, B>> = MultiUnidirectionalTransformingProvider.of(
-    listOf(a, b), true
-) { Tuple2(it[0] as A, it[1] as B) }
+): Provider<Tuple2<A, B>> = combinedProvider(a, b, ::Tuple2)
 
 /**
  * Creates and returns a new [Provider] that combines the values of [a], [b] and [c].
@@ -178,9 +156,7 @@ fun <A, B, C> combinedProvider(
     a: Provider<A>,
     b: Provider<B>,
     c: Provider<C>
-): Provider<Tuple3<A, B, C>> = MultiUnidirectionalTransformingProvider.of(
-    listOf(a, b, c), true
-) { Tuple3(it[0] as A, it[1] as B, it[2] as C) }
+): Provider<Tuple3<A, B, C>> = combinedProvider(a, b, c, ::Tuple3)
 
 /**
  * Creates and returns a new [Provider] that combines the values of [a], [b], [c] and [d].
@@ -192,9 +168,7 @@ fun <A, B, C, D> combinedProvider(
     b: Provider<B>,
     c: Provider<C>,
     d: Provider<D>
-): Provider<Tuple4<A, B, C, D>> = MultiUnidirectionalTransformingProvider.of(
-    listOf(a, b, c, d), true
-) { Tuple4(it[0] as A, it[1] as B, it[2] as C, it[3] as D) }
+): Provider<Tuple4<A, B, C, D>> = combinedProvider(a, b, c, d, ::Tuple4)
 
 /**
  * Creates and returns a new [Provider] that combines the values of [a], [b], [c], [d] and [e].
@@ -207,9 +181,7 @@ fun <A, B, C, D, E> combinedProvider(
     c: Provider<C>,
     d: Provider<D>,
     e: Provider<E>
-): Provider<Tuple5<A, B, C, D, E>> = MultiUnidirectionalTransformingProvider.of(
-    listOf(a, b, c, d, e), true
-) { Tuple5(it[0] as A, it[1] as B, it[2] as C, it[3] as D, it[4] as E) }
+): Provider<Tuple5<A, B, C, D, E>> = combinedProvider(a, b, c, d, e, ::Tuple5)
 
 /**
  * Creates and returns a new [Provider] that combines the values of [a], [b], [c], [d], [e] and [f].
@@ -223,9 +195,7 @@ fun <A, B, C, D, E, F> combinedProvider(
     d: Provider<D>,
     e: Provider<E>,
     f: Provider<F>
-): Provider<Tuple6<A, B, C, D, E, F>> = MultiUnidirectionalTransformingProvider.of(
-    listOf(a, b, c, d, e, f), true
-) { Tuple6(it[0] as A, it[1] as B, it[2] as C, it[3] as D, it[4] as E, it[5] as F) }
+): Provider<Tuple6<A, B, C, D, E, F>> = combinedProvider(a, b, c, d, e, f, ::Tuple6)
 
 /**
  * Creates and returns a new [Provider] that combines the values of [a], [b], [c], [d], [e], [f] and [g].
@@ -240,9 +210,7 @@ fun <A, B, C, D, E, F, G> combinedProvider(
     e: Provider<E>,
     f: Provider<F>,
     g: Provider<G>
-): Provider<Tuple7<A, B, C, D, E, F, G>> = MultiUnidirectionalTransformingProvider.of(
-    listOf(a, b, c, d, e, f, g), true
-) { Tuple7(it[0] as A, it[1] as B, it[2] as C, it[3] as D, it[4] as E, it[5] as F, it[6] as G) }
+): Provider<Tuple7<A, B, C, D, E, F, G>> = combinedProvider(a, b, c, d, e, f, g, ::Tuple7)
 
 /**
  * Creates and returns a new [Provider] that combines the values of [a], [b], [c], [d], [e], [f], [g] and [h].
@@ -258,9 +226,7 @@ fun <A, B, C, D, E, F, G, H> combinedProvider(
     f: Provider<F>,
     g: Provider<G>,
     h: Provider<H>
-): Provider<Tuple8<A, B, C, D, E, F, G, H>> = MultiUnidirectionalTransformingProvider.of(
-    listOf(a, b, c, d, e, f, g, h), true
-) { Tuple8(it[0] as A, it[1] as B, it[2] as C, it[3] as D, it[4] as E, it[5] as F, it[6] as G, it[7] as H) }
+): Provider<Tuple8<A, B, C, D, E, F, G, H>> = combinedProvider(a, b, c, d, e, f, g, h, ::Tuple8)
 
 /**
  * Creates and returns a new [Provider] that combines the values of [a], [b], [c], [d], [e], [f], [g], [h] and [i].
@@ -277,9 +243,7 @@ fun <A, B, C, D, E, F, G, H, I> combinedProvider(
     g: Provider<G>,
     h: Provider<H>,
     i: Provider<I>
-): Provider<Tuple9<A, B, C, D, E, F, G, H, I>> = MultiUnidirectionalTransformingProvider.of(
-    listOf(a, b, c, d, e, f, g, h, i), true
-) { Tuple9(it[0] as A, it[1] as B, it[2] as C, it[3] as D, it[4] as E, it[5] as F, it[6] as G, it[7] as H, it[8] as I) }
+): Provider<Tuple9<A, B, C, D, E, F, G, H, I>> = combinedProvider(a, b, c, d, e, f, g, h, i, ::Tuple9)
 
 /**
  * Creates and returns a new [Provider] that combines the values of [a], [b], [c], [d], [e], [f], [g], [h], [i] and [j].
@@ -297,6 +261,4 @@ fun <A, B, C, D, E, F, G, H, I, J> combinedProvider(
     h: Provider<H>,
     i: Provider<I>,
     j: Provider<J>
-): Provider<Tuple10<A, B, C, D, E, F, G, H, I, J>> = MultiUnidirectionalTransformingProvider.of(
-    listOf(a, b, c, d, e, f, g, h, i, j), true
-) { Tuple10(it[0] as A, it[1] as B, it[2] as C, it[3] as D, it[4] as E, it[5] as F, it[6] as G, it[7] as H, it[8] as I, it[9] as J) }
+): Provider<Tuple10<A, B, C, D, E, F, G, H, I, J>> = combinedProvider(a, b, c, d, e, f, g, h, i, j, ::Tuple10)
