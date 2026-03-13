@@ -10,6 +10,15 @@ import xyz.xenondevs.commons.provider.util.SingleKeyWeakHashMap
 import xyz.xenondevs.commons.provider.util.weakHashSet
 import xyz.xenondevs.commons.provider.util.with
 import xyz.xenondevs.commons.provider.util.without
+import xyz.xenondevs.commons.tuple.Tuple10
+import xyz.xenondevs.commons.tuple.Tuple2
+import xyz.xenondevs.commons.tuple.Tuple3
+import xyz.xenondevs.commons.tuple.Tuple4
+import xyz.xenondevs.commons.tuple.Tuple5
+import xyz.xenondevs.commons.tuple.Tuple6
+import xyz.xenondevs.commons.tuple.Tuple7
+import xyz.xenondevs.commons.tuple.Tuple8
+import xyz.xenondevs.commons.tuple.Tuple9
 import java.util.*
 import java.util.concurrent.ConcurrentHashMap
 
@@ -252,19 +261,81 @@ internal interface MutableProviderDefaults<T> : MutableProvider<T> {
         return provider
     }
     
-    override fun <R> mapObserved(createObservable: (T, () -> Unit) -> R): Provider<R> {
+    override fun <R> strongMapObserved(createObservable: (T, () -> Unit) -> R): Provider<R> {
         val provider = ObservedValueUndirectionalTransformingProvider(this, createObservable)
         addStrongChild(provider)
         provider.handleParentUpdated(this) // propagate potentially lost update during provider creation and child assignment
         return provider
     }
     
-    override fun <R> strongMapObserved(createObservable: (T, () -> Unit) -> R): Provider<R> {
+    override fun <R> mapObserved(createObservable: (T, () -> Unit) -> R): Provider<R> {
         val provider = ObservedValueUndirectionalTransformingProvider(this, createObservable)
         addWeakChild(provider)
         provider.handleParentUpdated(this) // propagate potentially lost update during provider creation and child assignment
         return provider
     }
+    
+    //<editor-fold desc="decompose">
+    override fun <R> strongDecompose(size: Int, decompose: (T) -> List<R>, recompose: (List<R>) -> T): List<MutableProvider<R>> =
+        DecomposingProviderN.of(this, size, false, decompose, recompose)
+    
+    override fun <A, B> strongDecompose(decompose: (T) -> Tuple2<A, B>, recompose: (A, B) -> T): Tuple2<MutableProvider<A>, MutableProvider<B>> =
+        DecomposingProvider2.of(this, false, decompose, recompose)
+    
+    override fun <A, B, C> strongDecompose(decompose: (T) -> Tuple3<A, B, C>, recompose: (A, B, C) -> T): Tuple3<MutableProvider<A>, MutableProvider<B>, MutableProvider<C>> =
+        DecomposingProvider3.of(this, false, decompose, recompose)
+    
+    override fun <A, B, C, D> strongDecompose(decompose: (T) -> Tuple4<A, B, C, D>, recompose: (A, B, C, D) -> T): Tuple4<MutableProvider<A>, MutableProvider<B>, MutableProvider<C>, MutableProvider<D>> =
+        DecomposingProvider4.of(this, false, decompose, recompose)
+    
+    override fun <A, B, C, D, E> strongDecompose(decompose: (T) -> Tuple5<A, B, C, D, E>, recompose: (A, B, C, D, E) -> T): Tuple5<MutableProvider<A>, MutableProvider<B>, MutableProvider<C>, MutableProvider<D>, MutableProvider<E>> =
+        DecomposingProvider5.of(this, false, decompose, recompose)
+    
+    override fun <A, B, C, D, E, F> strongDecompose(decompose: (T) -> Tuple6<A, B, C, D, E, F>, recompose: (A, B, C, D, E, F) -> T): Tuple6<MutableProvider<A>, MutableProvider<B>, MutableProvider<C>, MutableProvider<D>, MutableProvider<E>, MutableProvider<F>> =
+        DecomposingProvider6.of(this, false, decompose, recompose)
+    
+    override fun <A, B, C, D, E, F, G> strongDecompose(decompose: (T) -> Tuple7<A, B, C, D, E, F, G>, recompose: (A, B, C, D, E, F, G) -> T): Tuple7<MutableProvider<A>, MutableProvider<B>, MutableProvider<C>, MutableProvider<D>, MutableProvider<E>, MutableProvider<F>, MutableProvider<G>> =
+        DecomposingProvider7.of(this, false, decompose, recompose)
+    
+    override fun <A, B, C, D, E, F, G, H> strongDecompose(decompose: (T) -> Tuple8<A, B, C, D, E, F, G, H>, recompose: (A, B, C, D, E, F, G, H) -> T): Tuple8<MutableProvider<A>, MutableProvider<B>, MutableProvider<C>, MutableProvider<D>, MutableProvider<E>, MutableProvider<F>, MutableProvider<G>, MutableProvider<H>> =
+        DecomposingProvider8.of(this, false, decompose, recompose)
+    
+    override fun <A, B, C, D, E, F, G, H, I> strongDecompose(decompose: (T) -> Tuple9<A, B, C, D, E, F, G, H, I>, recompose: (A, B, C, D, E, F, G, H, I) -> T): Tuple9<MutableProvider<A>, MutableProvider<B>, MutableProvider<C>, MutableProvider<D>, MutableProvider<E>, MutableProvider<F>, MutableProvider<G>, MutableProvider<H>, MutableProvider<I>> =
+        DecomposingProvider9.of(this, false, decompose, recompose)
+    
+    override fun <A, B, C, D, E, F, G, H, I, J> strongDecompose(decompose: (T) -> Tuple10<A, B, C, D, E, F, G, H, I, J>, recompose: (A, B, C, D, E, F, G, H, I, J) -> T): Tuple10<MutableProvider<A>, MutableProvider<B>, MutableProvider<C>, MutableProvider<D>, MutableProvider<E>, MutableProvider<F>, MutableProvider<G>, MutableProvider<H>, MutableProvider<I>, MutableProvider<J>> =
+        DecomposingProvider10.of(this, false, decompose, recompose)
+    
+    override fun <R> decompose(size: Int, decompose: (T) -> List<R>, recompose: (List<R>) -> T): List<MutableProvider<R>> =
+        DecomposingProviderN.of(this, size, true, decompose, recompose)
+    
+    override fun <A, B> decompose(decompose: (T) -> Tuple2<A, B>, recompose: (A, B) -> T): Tuple2<MutableProvider<A>, MutableProvider<B>> =
+        DecomposingProvider2.of(this, true, decompose, recompose)
+    
+    override fun <A, B, C> decompose(decompose: (T) -> Tuple3<A, B, C>, recompose: (A, B, C) -> T): Tuple3<MutableProvider<A>, MutableProvider<B>, MutableProvider<C>> =
+        DecomposingProvider3.of(this, true, decompose, recompose)
+    
+    override fun <A, B, C, D> decompose(decompose: (T) -> Tuple4<A, B, C, D>, recompose: (A, B, C, D) -> T): Tuple4<MutableProvider<A>, MutableProvider<B>, MutableProvider<C>, MutableProvider<D>> =
+        DecomposingProvider4.of(this, true, decompose, recompose)
+    
+    override fun <A, B, C, D, E> decompose(decompose: (T) -> Tuple5<A, B, C, D, E>, recompose: (A, B, C, D, E) -> T): Tuple5<MutableProvider<A>, MutableProvider<B>, MutableProvider<C>, MutableProvider<D>, MutableProvider<E>> =
+        DecomposingProvider5.of(this, true, decompose, recompose)
+    
+    override fun <A, B, C, D, E, F> decompose(decompose: (T) -> Tuple6<A, B, C, D, E, F>, recompose: (A, B, C, D, E, F) -> T): Tuple6<MutableProvider<A>, MutableProvider<B>, MutableProvider<C>, MutableProvider<D>, MutableProvider<E>, MutableProvider<F>> =
+        DecomposingProvider6.of(this, true, decompose, recompose)
+    
+    override fun <A, B, C, D, E, F, G> decompose(decompose: (T) -> Tuple7<A, B, C, D, E, F, G>, recompose: (A, B, C, D, E, F, G) -> T): Tuple7<MutableProvider<A>, MutableProvider<B>, MutableProvider<C>, MutableProvider<D>, MutableProvider<E>, MutableProvider<F>, MutableProvider<G>> =
+        DecomposingProvider7.of(this, true, decompose, recompose)
+    
+    override fun <A, B, C, D, E, F, G, H> decompose(decompose: (T) -> Tuple8<A, B, C, D, E, F, G, H>, recompose: (A, B, C, D, E, F, G, H) -> T): Tuple8<MutableProvider<A>, MutableProvider<B>, MutableProvider<C>, MutableProvider<D>, MutableProvider<E>, MutableProvider<F>, MutableProvider<G>, MutableProvider<H>> =
+        DecomposingProvider8.of(this, true, decompose, recompose)
+    
+    override fun <A, B, C, D, E, F, G, H, I> decompose(decompose: (T) -> Tuple9<A, B, C, D, E, F, G, H, I>, recompose: (A, B, C, D, E, F, G, H, I) -> T): Tuple9<MutableProvider<A>, MutableProvider<B>, MutableProvider<C>, MutableProvider<D>, MutableProvider<E>, MutableProvider<F>, MutableProvider<G>, MutableProvider<H>, MutableProvider<I>> =
+        DecomposingProvider9.of(this, true, decompose, recompose)
+    
+    override fun <A, B, C, D, E, F, G, H, I, J> decompose(decompose: (T) -> Tuple10<A, B, C, D, E, F, G, H, I, J>, recompose: (A, B, C, D, E, F, G, H, I, J) -> T): Tuple10<MutableProvider<A>, MutableProvider<B>, MutableProvider<C>, MutableProvider<D>, MutableProvider<E>, MutableProvider<F>, MutableProvider<G>, MutableProvider<H>, MutableProvider<I>, MutableProvider<J>> =
+        DecomposingProvider10.of(this, true, decompose, recompose)
+    //</editor-fold>
     
     override fun consume(source: Provider<T>) {
         source.observeWeak(this) { thisRef -> thisRef.update(source.value, setOf(source)) }

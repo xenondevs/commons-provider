@@ -1,5 +1,14 @@
 package xyz.xenondevs.commons.provider
 
+import xyz.xenondevs.commons.tuple.Tuple10
+import xyz.xenondevs.commons.tuple.Tuple2
+import xyz.xenondevs.commons.tuple.Tuple3
+import xyz.xenondevs.commons.tuple.Tuple4
+import xyz.xenondevs.commons.tuple.Tuple5
+import xyz.xenondevs.commons.tuple.Tuple6
+import xyz.xenondevs.commons.tuple.Tuple7
+import xyz.xenondevs.commons.tuple.Tuple8
+import xyz.xenondevs.commons.tuple.Tuple9
 import java.lang.ref.WeakReference
 import kotlin.reflect.KProperty
 
@@ -80,6 +89,282 @@ interface MutableProvider<T> : Provider<T> {
      * @see [strongObserved]
      */
     fun <R> strongMapObserved(createObservable: (value: T, updateHandler: () -> Unit) -> R): Provider<R>
+    
+    //<editor-fold desc="decompose">
+    /**
+     * Decomposes [this][MutableProvider] into a list of [size][size] [MutableProviders][MutableProvider]
+     * using the provided [decompose] and [recompose] functions.
+     *
+     * [decompose] and [recompose] should be pure functions whose components are independent:
+     * modifying one component and round-tripping through [recompose] and [decompose] must not
+     * alter any other component. This allows updating a single component without invalidating its siblings.
+     */
+    fun <R> strongDecompose(size: Int, decompose: (T) -> List<R>, recompose: (List<R>) -> T): List<MutableProvider<R>>
+    
+    /**
+     * Decomposes [this][MutableProvider] into two [MutableProviders][MutableProvider]
+     * using the provided [decompose] and [recompose] functions.
+     *
+     * [decompose] and [recompose] should be pure functions whose components are independent:
+     * modifying one component and round-tripping through [recompose] and [decompose] must not
+     * alter any other component. This allows updating a single component without invalidating its siblings.
+     */
+    fun <A, B> strongDecompose(
+        decompose: (T) -> Tuple2<A, B>,
+        recompose: (A, B) -> T
+    ): Tuple2<MutableProvider<A>, MutableProvider<B>>
+    
+    /**
+     * Decomposes [this][MutableProvider] into three [MutableProviders][MutableProvider]
+     * using the provided [decompose] and [recompose] functions.
+     *
+     * [decompose] and [recompose] should be pure functions whose components are independent:
+     * modifying one component and round-tripping through [recompose] and [decompose] must not
+     * alter any other component. This allows updating a single component without invalidating its siblings.
+     */
+    fun <A, B, C> strongDecompose(
+        decompose: (T) -> Tuple3<A, B, C>,
+        recompose: (A, B, C) -> T
+    ): Tuple3<MutableProvider<A>, MutableProvider<B>, MutableProvider<C>>
+    
+    /**
+     * Decomposes [this][MutableProvider] into four [MutableProviders][MutableProvider]
+     * using the provided [decompose] and [recompose] functions.
+     *
+     * [decompose] and [recompose] should be pure functions whose components are independent:
+     * modifying one component and round-tripping through [recompose] and [decompose] must not
+     * alter any other component. This allows updating a single component without invalidating its siblings.
+     */
+    fun <A, B, C, D> strongDecompose(
+        decompose: (T) -> Tuple4<A, B, C, D>,
+        recompose: (A, B, C, D) -> T
+    ): Tuple4<MutableProvider<A>, MutableProvider<B>, MutableProvider<C>, MutableProvider<D>>
+    
+    /**
+     * Decomposes [this][MutableProvider] into five [MutableProviders][MutableProvider]
+     * using the provided [decompose] and [recompose] functions.
+     *
+     * [decompose] and [recompose] should be pure functions whose components are independent:
+     * modifying one component and round-tripping through [recompose] and [decompose] must not
+     * alter any other component. This allows updating a single component without invalidating its siblings.
+     */
+    fun <A, B, C, D, E> strongDecompose(
+        decompose: (T) -> Tuple5<A, B, C, D, E>,
+        recompose: (A, B, C, D, E) -> T
+    ): Tuple5<MutableProvider<A>, MutableProvider<B>, MutableProvider<C>, MutableProvider<D>, MutableProvider<E>>
+    
+    /**
+     * Decomposes [this][MutableProvider] into six [MutableProviders][MutableProvider]
+     * using the provided [decompose] and [recompose] functions.
+     *
+     * [decompose] and [recompose] should be pure functions whose components are independent:
+     * modifying one component and round-tripping through [recompose] and [decompose] must not
+     * alter any other component. This allows updating a single component without invalidating its siblings.
+     */
+    fun <A, B, C, D, E, F> strongDecompose(
+        decompose: (T) -> Tuple6<A, B, C, D, E, F>,
+        recompose: (A, B, C, D, E, F) -> T
+    ): Tuple6<MutableProvider<A>, MutableProvider<B>, MutableProvider<C>, MutableProvider<D>, MutableProvider<E>, MutableProvider<F>>
+    
+    /**
+     * Decomposes [this][MutableProvider] into seven [MutableProviders][MutableProvider]
+     * using the provided [decompose] and [recompose] functions.
+     *
+     * [decompose] and [recompose] should be pure functions whose components are independent:
+     * modifying one component and round-tripping through [recompose] and [decompose] must not
+     * alter any other component. This allows updating a single component without invalidating its siblings.
+     */
+    fun <A, B, C, D, E, F, G> strongDecompose(
+        decompose: (T) -> Tuple7<A, B, C, D, E, F, G>,
+        recompose: (A, B, C, D, E, F, G) -> T
+    ): Tuple7<MutableProvider<A>, MutableProvider<B>, MutableProvider<C>, MutableProvider<D>, MutableProvider<E>, MutableProvider<F>, MutableProvider<G>>
+    
+    /**
+     * Decomposes [this][MutableProvider] into eight [MutableProviders][MutableProvider]
+     * using the provided [decompose] and [recompose] functions.
+     *
+     * [decompose] and [recompose] should be pure functions whose components are independent:
+     * modifying one component and round-tripping through [recompose] and [decompose] must not
+     * alter any other component. This allows updating a single component without invalidating its siblings.
+     */
+    fun <A, B, C, D, E, F, G, H> strongDecompose(
+        decompose: (T) -> Tuple8<A, B, C, D, E, F, G, H>,
+        recompose: (A, B, C, D, E, F, G, H) -> T
+    ): Tuple8<MutableProvider<A>, MutableProvider<B>, MutableProvider<C>, MutableProvider<D>, MutableProvider<E>, MutableProvider<F>, MutableProvider<G>, MutableProvider<H>>
+    
+    /**
+     * Decomposes [this][MutableProvider] into nine [MutableProviders][MutableProvider]
+     * using the provided [decompose] and [recompose] functions.
+     *
+     * [decompose] and [recompose] should be pure functions whose components are independent:
+     * modifying one component and round-tripping through [recompose] and [decompose] must not
+     * alter any other component. This allows updating a single component without invalidating its siblings.
+     */
+    fun <A, B, C, D, E, F, G, H, I> strongDecompose(
+        decompose: (T) -> Tuple9<A, B, C, D, E, F, G, H, I>,
+        recompose: (A, B, C, D, E, F, G, H, I) -> T
+    ): Tuple9<MutableProvider<A>, MutableProvider<B>, MutableProvider<C>, MutableProvider<D>, MutableProvider<E>, MutableProvider<F>, MutableProvider<G>, MutableProvider<H>, MutableProvider<I>>
+    
+    /**
+     * Decomposes [this][MutableProvider] into ten [MutableProviders][MutableProvider]
+     * using the provided [decompose] and [recompose] functions.
+     *
+     * [decompose] and [recompose] should be pure functions whose components are independent:
+     * modifying one component and round-tripping through [recompose] and [decompose] must not
+     * alter any other component. This allows updating a single component without invalidating its siblings.
+     */
+    fun <A, B, C, D, E, F, G, H, I, J> strongDecompose(
+        decompose: (T) -> Tuple10<A, B, C, D, E, F, G, H, I, J>,
+        recompose: (A, B, C, D, E, F, G, H, I, J) -> T
+    ): Tuple10<MutableProvider<A>, MutableProvider<B>, MutableProvider<C>, MutableProvider<D>, MutableProvider<E>, MutableProvider<F>, MutableProvider<G>, MutableProvider<H>, MutableProvider<I>, MutableProvider<J>>
+    
+    /**
+     * Decomposes [this][MutableProvider] into a list of [size][size] [MutableProviders][MutableProvider]
+     * using the provided [decompose] and [recompose] functions.
+     *
+     * [decompose] and [recompose] should be pure functions whose components are independent:
+     * modifying one component and round-tripping through [recompose] and [decompose] must not
+     * alter any other component. This allows updating a single component without invalidating its siblings.
+     *
+     * The returned providers will only be stored in a [WeakReference] in the parent provider ([this][MutableProvider]).
+     */
+    fun <R> decompose(size: Int, decompose: (T) -> List<R>, recompose: (List<R>) -> T): List<MutableProvider<R>>
+    
+    /**
+     * Decomposes [this][MutableProvider] into two [MutableProviders][MutableProvider]
+     * using the provided [decompose] and [recompose] functions.
+     *
+     * [decompose] and [recompose] should be pure functions whose components are independent:
+     * modifying one component and round-tripping through [recompose] and [decompose] must not
+     * alter any other component. This allows updating a single component without invalidating its siblings.
+     *
+     * The returned providers will only be stored in a [WeakReference] in the parent provider ([this][MutableProvider]).
+     */
+    fun <A, B> decompose(
+        decompose: (T) -> Tuple2<A, B>,
+        recompose: (A, B) -> T
+    ): Tuple2<MutableProvider<A>, MutableProvider<B>>
+    
+    /**
+     * Decomposes [this][MutableProvider] into three [MutableProviders][MutableProvider]
+     * using the provided [decompose] and [recompose] functions.
+     *
+     * [decompose] and [recompose] should be pure functions whose components are independent:
+     * modifying one component and round-tripping through [recompose] and [decompose] must not
+     * alter any other component. This allows updating a single component without invalidating its siblings.
+     *
+     * The returned providers will only be stored in a [WeakReference] in the parent provider ([this][MutableProvider]).
+     */
+    fun <A, B, C> decompose(
+        decompose: (T) -> Tuple3<A, B, C>,
+        recompose: (A, B, C) -> T
+    ): Tuple3<MutableProvider<A>, MutableProvider<B>, MutableProvider<C>>
+    
+    /**
+     * Decomposes [this][MutableProvider] into four [MutableProviders][MutableProvider]
+     * using the provided [decompose] and [recompose] functions.
+     *
+     * [decompose] and [recompose] should be pure functions whose components are independent:
+     * modifying one component and round-tripping through [recompose] and [decompose] must not
+     * alter any other component. This allows updating a single component without invalidating its siblings.
+     *
+     * The returned providers will only be stored in a [WeakReference] in the parent provider ([this][MutableProvider]).
+     */
+    fun <A, B, C, D> decompose(
+        decompose: (T) -> Tuple4<A, B, C, D>,
+        recompose: (A, B, C, D) -> T
+    ): Tuple4<MutableProvider<A>, MutableProvider<B>, MutableProvider<C>, MutableProvider<D>>
+    
+    /**
+     * Decomposes [this][MutableProvider] into five [MutableProviders][MutableProvider]
+     * using the provided [decompose] and [recompose] functions.
+     *
+     * [decompose] and [recompose] should be pure functions whose components are independent:
+     * modifying one component and round-tripping through [recompose] and [decompose] must not
+     * alter any other component. This allows updating a single component without invalidating its siblings.
+     *
+     * The returned providers will only be stored in a [WeakReference] in the parent provider ([this][MutableProvider]).
+     */
+    fun <A, B, C, D, E> decompose(
+        decompose: (T) -> Tuple5<A, B, C, D, E>,
+        recompose: (A, B, C, D, E) -> T
+    ): Tuple5<MutableProvider<A>, MutableProvider<B>, MutableProvider<C>, MutableProvider<D>, MutableProvider<E>>
+    
+    /**
+     * Decomposes [this][MutableProvider] into six [MutableProviders][MutableProvider]
+     * using the provided [decompose] and [recompose] functions.
+     *
+     * [decompose] and [recompose] should be pure functions whose components are independent:
+     * modifying one component and round-tripping through [recompose] and [decompose] must not
+     * alter any other component. This allows updating a single component without invalidating its siblings.
+     *
+     * The returned providers will only be stored in a [WeakReference] in the parent provider ([this][MutableProvider]).
+     */
+    fun <A, B, C, D, E, F> decompose(
+        decompose: (T) -> Tuple6<A, B, C, D, E, F>,
+        recompose: (A, B, C, D, E, F) -> T
+    ): Tuple6<MutableProvider<A>, MutableProvider<B>, MutableProvider<C>, MutableProvider<D>, MutableProvider<E>, MutableProvider<F>>
+    
+    /**
+     * Decomposes [this][MutableProvider] into seven [MutableProviders][MutableProvider]
+     * using the provided [decompose] and [recompose] functions.
+     *
+     * [decompose] and [recompose] should be pure functions whose components are independent:
+     * modifying one component and round-tripping through [recompose] and [decompose] must not
+     * alter any other component. This allows updating a single component without invalidating its siblings.
+     *
+     * The returned providers will only be stored in a [WeakReference] in the parent provider ([this][MutableProvider]).
+     */
+    fun <A, B, C, D, E, F, G> decompose(
+        decompose: (T) -> Tuple7<A, B, C, D, E, F, G>,
+        recompose: (A, B, C, D, E, F, G) -> T
+    ): Tuple7<MutableProvider<A>, MutableProvider<B>, MutableProvider<C>, MutableProvider<D>, MutableProvider<E>, MutableProvider<F>, MutableProvider<G>>
+    
+    /**
+     * Decomposes [this][MutableProvider] into eight [MutableProviders][MutableProvider]
+     * using the provided [decompose] and [recompose] functions.
+     *
+     * [decompose] and [recompose] should be pure functions whose components are independent:
+     * modifying one component and round-tripping through [recompose] and [decompose] must not
+     * alter any other component. This allows updating a single component without invalidating its siblings.
+     *
+     * The returned providers will only be stored in a [WeakReference] in the parent provider ([this][MutableProvider]).
+     */
+    fun <A, B, C, D, E, F, G, H> decompose(
+        decompose: (T) -> Tuple8<A, B, C, D, E, F, G, H>,
+        recompose: (A, B, C, D, E, F, G, H) -> T
+    ): Tuple8<MutableProvider<A>, MutableProvider<B>, MutableProvider<C>, MutableProvider<D>, MutableProvider<E>, MutableProvider<F>, MutableProvider<G>, MutableProvider<H>>
+    
+    /**
+     * Decomposes [this][MutableProvider] into nine [MutableProviders][MutableProvider]
+     * using the provided [decompose] and [recompose] functions.
+     *
+     * [decompose] and [recompose] should be pure functions whose components are independent:
+     * modifying one component and round-tripping through [recompose] and [decompose] must not
+     * alter any other component. This allows updating a single component without invalidating its siblings.
+     *
+     * The returned providers will only be stored in a [WeakReference] in the parent provider ([this][MutableProvider]).
+     */
+    fun <A, B, C, D, E, F, G, H, I> decompose(
+        decompose: (T) -> Tuple9<A, B, C, D, E, F, G, H, I>,
+        recompose: (A, B, C, D, E, F, G, H, I) -> T
+    ): Tuple9<MutableProvider<A>, MutableProvider<B>, MutableProvider<C>, MutableProvider<D>, MutableProvider<E>, MutableProvider<F>, MutableProvider<G>, MutableProvider<H>, MutableProvider<I>>
+    
+    /**
+     * Decomposes [this][MutableProvider] into ten [MutableProviders][MutableProvider]
+     * using the provided [decompose] and [recompose] functions.
+     *
+     * [decompose] and [recompose] should be pure functions whose components are independent:
+     * modifying one component and round-tripping through [recompose] and [decompose] must not
+     * alter any other component. This allows updating a single component without invalidating its siblings.
+     *
+     * The returned providers will only be stored in a [WeakReference] in the parent provider ([this][MutableProvider]).
+     */
+    fun <A, B, C, D, E, F, G, H, I, J> decompose(
+        decompose: (T) -> Tuple10<A, B, C, D, E, F, G, H, I, J>,
+        recompose: (A, B, C, D, E, F, G, H, I, J) -> T
+    ): Tuple10<MutableProvider<A>, MutableProvider<B>, MutableProvider<C>, MutableProvider<D>, MutableProvider<E>, MutableProvider<F>, MutableProvider<G>, MutableProvider<H>, MutableProvider<I>, MutableProvider<J>>
+    //</editor-fold>
     
     /**
      * Listens to updates from [source], updating [this][MutableProvider]'s value to the same value as [source] whenever [source]'s value changes.
