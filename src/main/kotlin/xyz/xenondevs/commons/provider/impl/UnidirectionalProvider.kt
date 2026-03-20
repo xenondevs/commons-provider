@@ -2,12 +2,13 @@
 
 package xyz.xenondevs.commons.provider.impl
 
+import jdk.jfr.internal.consumer.EventLog.update
 import xyz.xenondevs.commons.provider.DeferredValue
 import xyz.xenondevs.commons.provider.MutableProvider
 import xyz.xenondevs.commons.provider.Provider
 import xyz.xenondevs.commons.provider.UnstableProviderApi
 
-internal abstract class UnidirectionalProvider<P, T> : AbstractProvider<T>() {
+internal abstract class UnidirectionalProvider<T> : AbstractProvider<T>() {
     
     abstract override var value: DeferredValue<T>
     
@@ -32,7 +33,7 @@ internal abstract class UnidirectionalProvider<P, T> : AbstractProvider<T>() {
 internal class UnidirectionalTransformingProvider<P, T>(
     private val parent: Provider<P>,
     private val transform: (P) -> T
-) : UnidirectionalProvider<P, T>() {
+) : UnidirectionalProvider<T>() {
     
     override val parents: Set<Provider<*>>
         get() = setOf(parent)
@@ -64,7 +65,7 @@ private class SelfMappedDeferredValue<P, T>(
 internal class ObservedValueUndirectionalTransformingProvider<P, T>(
     private val parent: MutableProvider<P>,
     private val createObservedObj: (parentValue: P, updateHandler: () -> Unit) -> T
-) : UnidirectionalProvider<P, T>() {
+) : UnidirectionalProvider<T>() {
     
     override val parents: Set<Provider<*>>
         get() = setOf(parent)

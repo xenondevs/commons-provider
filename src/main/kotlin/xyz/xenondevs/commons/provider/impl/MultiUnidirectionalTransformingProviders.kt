@@ -14,7 +14,7 @@ private fun registerChild(parent: Provider<*>, child: Provider<*>, weak: Boolean
 internal class MultiUnidirectionalTransformingProvider<P, T> private constructor(
     private val _parents: List<Provider<P>>,
     private val transform: (List<P>) -> T
-) : UnidirectionalProvider<P, T>() {
+) : UnidirectionalProvider<T>() {
     
     override val parents: Set<Provider<*>>
         get() = _parents.toSet()
@@ -116,7 +116,7 @@ internal class MultiUnidirectionalTransformingProvider2<A, B, T> private constru
     private val a: Provider<A>,
     private val b: Provider<B>,
     private val transform: (A, B) -> T
-) : UnidirectionalProvider<Any?, T>() {
+) : UnidirectionalProvider<T>() {
     
     override val parents: Set<Provider<*>>
         get() = setOf(a, b)
@@ -153,7 +153,7 @@ internal class MultiUnidirectionalTransformingProvider3<A, B, C, T> private cons
     private val b: Provider<B>,
     private val c: Provider<C>,
     private val transform: (A, B, C) -> T
-) : UnidirectionalProvider<Any?, T>() {
+) : UnidirectionalProvider<T>() {
     
     override val parents: Set<Provider<*>>
         get() = setOf(a, b, c)
@@ -193,7 +193,7 @@ internal class MultiUnidirectionalTransformingProvider4<A, B, C, D, T> private c
     private val c: Provider<C>,
     private val d: Provider<D>,
     private val transform: (A, B, C, D) -> T
-) : UnidirectionalProvider<Any?, T>() {
+) : UnidirectionalProvider<T>() {
     
     override val parents: Set<Provider<*>>
         get() = setOf(a, b, c, d)
@@ -236,7 +236,7 @@ internal class MultiUnidirectionalTransformingProvider5<A, B, C, D, E, T> privat
     private val d: Provider<D>,
     private val e: Provider<E>,
     private val transform: (A, B, C, D, E) -> T
-) : UnidirectionalProvider<Any?, T>() {
+) : UnidirectionalProvider<T>() {
     
     override val parents: Set<Provider<*>>
         get() = setOf(a, b, c, d, e)
@@ -282,7 +282,7 @@ internal class MultiUnidirectionalTransformingProvider6<A, B, C, D, E, F, T> pri
     private val e: Provider<E>,
     private val f: Provider<F>,
     private val transform: (A, B, C, D, E, F) -> T
-) : UnidirectionalProvider<Any?, T>() {
+) : UnidirectionalProvider<T>() {
     
     override val parents: Set<Provider<*>>
         get() = setOf(a, b, c, d, e, f)
@@ -331,7 +331,7 @@ internal class MultiUnidirectionalTransformingProvider7<A, B, C, D, E, F, G, T> 
     private val f: Provider<F>,
     private val g: Provider<G>,
     private val transform: (A, B, C, D, E, F, G) -> T
-) : UnidirectionalProvider<Any?, T>() {
+) : UnidirectionalProvider<T>() {
     
     override val parents: Set<Provider<*>>
         get() = setOf(a, b, c, d, e, f, g)
@@ -383,7 +383,7 @@ internal class MultiUnidirectionalTransformingProvider8<A, B, C, D, E, F, G, H, 
     private val g: Provider<G>,
     private val h: Provider<H>,
     private val transform: (A, B, C, D, E, F, G, H) -> T
-) : UnidirectionalProvider<Any?, T>() {
+) : UnidirectionalProvider<T>() {
     
     override val parents: Set<Provider<*>>
         get() = setOf(a, b, c, d, e, f, g, h)
@@ -438,7 +438,7 @@ internal class MultiUnidirectionalTransformingProvider9<A, B, C, D, E, F, G, H, 
     private val h: Provider<H>,
     private val i: Provider<I>,
     private val transform: (A, B, C, D, E, F, G, H, I) -> T
-) : UnidirectionalProvider<Any?, T>() {
+) : UnidirectionalProvider<T>() {
     
     override val parents: Set<Provider<*>>
         get() = setOf(a, b, c, d, e, f, g, h, i)
@@ -496,7 +496,7 @@ internal class MultiUnidirectionalTransformingProvider10<A, B, C, D, E, F, G, H,
     private val i: Provider<I>,
     private val j: Provider<J>,
     private val transform: (A, B, C, D, E, F, G, H, I, J) -> T
-) : UnidirectionalProvider<Any?, T>() {
+) : UnidirectionalProvider<T>() {
     
     override val parents: Set<Provider<*>>
         get() = setOf(a, b, c, d, e, f, g, h, i, j)
