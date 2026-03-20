@@ -6,7 +6,7 @@ package xyz.xenondevs.commons.provider
 import java.lang.ref.WeakReference
 
 /**
- * Creates and returns a new [Provider] that maps to the element at [index] or throws [NoSuchElementException].
+ * Creates and returns a new [Provider] that maps to the element at [index] or throws [IndexOutOfBoundsException].
  * 
  * The returned provider will only be stored in a [WeakReference] in the parent provider ([this][MutableProvider]).
  */
@@ -15,14 +15,14 @@ operator fun <T> Provider<List<T>>.get(index: Int): Provider<T> =
     map { it[index] }
 
 /**
- * Creates and returns a new [Provider] that maps to the element at [index] or throws [NoSuchElementException].
+ * Creates and returns a new [Provider] that maps to the element at [index] or throws [IndexOutOfBoundsException].
  */
 @JvmName("strongListGet")
 fun <T> Provider<List<T>>.strongGet(index: Int): Provider<T> =
     strongMap { it[index] }
 
 /**
- * Creates and returns a new [Provider] that maps to the element at [index] or throws [NoSuchElementException].
+ * Creates and returns a new [Provider] that maps to the element at [index] or throws [IndexOutOfBoundsException].
  * 
  * The returned provider will only be stored in a [WeakReference] in the parent provider ([this][MutableProvider]).
  */
@@ -31,7 +31,7 @@ operator fun <T> Provider<List<T>>.get(index: Provider<Int>) =
     combinedProvider(this, index) { list, i -> list[i] }
 
 /**
- * Creates and returns a new [Provider] that maps to the element at [index] or throws [NoSuchElementException].
+ * Creates and returns a new [Provider] that maps to the element at [index] or throws [IndexOutOfBoundsException].
  */
 @JvmName("strongListGet")
 fun <T> Provider<List<T>>.strongGet(index: Provider<Int>) =
@@ -134,7 +134,7 @@ fun <T> Provider<List<T>>.strongGetMod(index: Provider<Int>) =
     strongCombinedProvider(this, index) { list, i -> list[i % list.size] }
 
 /**
- * Creates and returns a new [Provider] that maps to the element at [index] or throws [NoSuchElementException].
+ * Creates and returns a new [Provider] that maps to the element at [index] or throws [IndexOutOfBoundsException].
  *
  * The returned provider will only be stored in a [WeakReference] in the parent provider ([this][MutableProvider]).
  */
@@ -143,14 +143,14 @@ operator fun <T> Provider<Array<T>>.get(index: Int): Provider<T> =
     map { it[index] }
 
 /**
- * Creates and returns a new [Provider] that maps to the element at [index] or throws [NoSuchElementException].
+ * Creates and returns a new [Provider] that maps to the element at [index] or throws [IndexOutOfBoundsException].
  */
 @JvmName("strongArrayGet")
 fun <T> Provider<Array<T>>.strongGet(index: Int): Provider<T> =
     strongMap { it[index] }
 
 /**
- * Creates and returns a new [Provider] that maps to the element at [index] or throws [NoSuchElementException].
+ * Creates and returns a new [Provider] that maps to the element at [index] or throws [IndexOutOfBoundsException].
  *
  * The returned provider will only be stored in a [WeakReference] in the parent provider ([this][MutableProvider]).
  */
@@ -159,7 +159,7 @@ operator fun <T> Provider<Array<T>>.get(index: Provider<Int>) =
     combinedProvider(this, index) { list, i -> list[i] }
 
 /**
- * Creates and returns a new [Provider] that maps to the element at [index] or throws [NoSuchElementException].
+ * Creates and returns a new [Provider] that maps to the element at [index] or throws [IndexOutOfBoundsException].
  */
 @JvmName("strongArrayGet")
 fun <T> Provider<Array<T>>.strongGet(index: Provider<Int>) =
