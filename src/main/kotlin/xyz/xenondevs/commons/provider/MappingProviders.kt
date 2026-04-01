@@ -95,6 +95,54 @@ fun <R> Provider<Provider<R>?>.flatten(): Provider<R?> = flatMap { it ?: NULL_PR
 fun <R> Provider<Provider<R>?>.strongFlatten(): Provider<R?> = strongFlatMap { it ?: NULL_PROVIDER }
 
 /**
+ * Creates and returns a new [Provider] that lazily maps to the value of the [Provider]
+ * returned by [transform], or `null` if [transform] returns `null`.
+ *
+ * [transform] should be a pure function.
+ *
+ * The returned provider will only be stored in a [WeakReference] in the parent providers
+ * ([this][Provider] and the result of [transform]).
+ */
+inline fun <T, R> Provider<T>.flatMapNonNull(crossinline transform: (T) -> Provider<R>?): Provider<R?> =
+    flatMap { transform(it) ?: NULL_PROVIDER }
+
+/**
+ * Creates and returns a new [Provider] that lazily maps to the value of the [Provider]
+ * returned by [transform], or `null` if [transform] returns `null`.
+ *
+ * [transform] should be a pure function.
+ */
+inline fun <T, R> Provider<T>.strongFlatMapNonNull(crossinline transform: (T) -> Provider<R>?): Provider<R?> =
+    strongFlatMap { transform(it) ?: NULL_PROVIDER }
+
+/**
+ * Creates and returns a new [Provider] that maps to the value of the [Provider]
+ * returned by [transform], or `null` if [transform] returns `null`.
+ *
+ * This disables lazy evaluation of [this][Provider] in order to ensure that all updates of the
+ * flat-mapped provider are received.
+ *
+ * [transform] should be a pure function.
+ *
+ * The returned provider will only be stored in a [WeakReference] in the parent providers
+ * ([this][Provider] and the result of [transform]).
+ */
+inline fun <T, R> Provider<T>.immediateFlatMapNonNull(crossinline transform: (T) -> Provider<R>?): Provider<R?> =
+    immediateFlatMap { transform(it) ?: NULL_PROVIDER }
+
+/**
+ * Creates and returns a new [Provider] that maps to the value of the [Provider]
+ * returned by [transform], or `null` if [transform] returns `null`.
+ *
+ * This disables lazy evaluation of [this][Provider] in order to ensure that all updates of the
+ * flat-mapped provider are received.
+ *
+ * [transform] should be a pure function.
+ */
+inline fun <T, R> Provider<T>.strongImmediateFlatMapNonNull(crossinline transform: (T) -> Provider<R>?): Provider<R?> =
+    strongImmediateFlatMap { transform(it) ?: NULL_PROVIDER }
+
+/**
  * Creates and returns a new [Provider] that maps non-null values of [this][Provider]
  * using the [transform] function.
  * Null values will be passed through without transformation.
